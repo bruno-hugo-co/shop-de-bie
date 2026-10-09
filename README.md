@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shop De Bie
 
-## Getting Started
+Dutch (nl-BE) homepage for Shop De Bie in Ninove, implemented from the read-only design handoff in `design/`. Next.js 15, React 19, TypeScript strict and Tailwind CSS v4.
 
-First, run the development server:
+## Development
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+Use Node 22 (`.nvmrc`) and the pnpm version pinned in `package.json`.
+
+```sh
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Google Fonts must be reachable during the first build. Next.js then serves the fonts locally. Photos are stored in `public/images`; run `node design/scripts/download-assets.mjs` if any are missing.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Validation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+pnpm lint
+pnpm typecheck
+pnpm build
+pnpm exec playwright install chromium firefox webkit
+pnpm test:e2e
+```
 
-## Learn More
+Playwright starts the production server on port 3100. Tests cover opening-hour boundaries, Brussels daylight-saving changes, all five responsive checkpoints, keyboard navigation, menu focus, deferred Maps loading, axe, metadata and redirects. `pnpm test:unit` runs the opening-hours cases; `pnpm test:browsers` runs the WebKit and Firefox checks. The production build is required before these commands.
 
-To learn more about Next.js, take a look at the following resources:
+The browser report and screenshots are in `playwright-report/` and `test-results/` (ignored by Git). To compare with the reference:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+node scripts/capture-reference.mjs
+# In another terminal: pnpm start --port 3100
+node scripts/inspect-browser.mjs
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+These scripts write ignored screenshots to `qa-artifacts/` and leave `design/` untouched.
 
-## Deploy on Vercel
+## Content and behaviour
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `src/content/home.ts` preserves the supplied Dutch copy and imports image descriptions from the asset manifest as local data.
+- `src/lib/hours.ts` owns the weekly schedule and inclusive holiday closure ranges. Client widgets initialise after mount and refresh every minute.
+- Google Maps loads only after selecting “Kaart laden”. No analytics or cookie banner is included.
+- `/ons-verhaal` reuses the approved story section. `/privacy` retains `TODO(client)` placeholders and is excluded from indexing until approved.
+- Icons and the sharing image are generated with local, OFL-licensed Instrument Sans fonts; the website uses `next/font/google` with the width axis.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+`vercel.json` sets the framework and reproducible install/build commands. Import this repository in the client's Vercel team, use `main` as the production branch and enable pull-request previews. No Vercel project, credentials, production deployment or DNS changes are configured by this checkout.
+
+Before publishing, resolve the client items in `PLAN.md`, particularly the privacy policy, copy/photo approval and domain access. After approval, add both domains, configure the `www` redirect in Vercel and verify the final production URLs before submitting the sitemap or changing the Google Business Profile.
+
+See `PLAN.md` for completed work, validation results, deviations and outstanding device checks.

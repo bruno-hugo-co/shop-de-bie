@@ -1,26 +1,131 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Shop De Bie — Tailwind CSS v4 theme. Paste into src/app/globals.css below `@import "tailwindcss";` */
+
+@theme {
+  --color-*: initial; /* drop the default palette: only brand colours exist */
+  --color-turquoise: #1BB0CE;
+  --color-ink: #0B2730;
+  --color-ink-hover: #123744;
+  --color-white: #FFFFFF;
+  --color-muted: #47616A;
+  --color-muted-dark: #C5D3D7;
+  --color-rule: #CFDDE1;
+  --color-rule-dark: #2A4852;
+  --color-tint: #D6F0F6;
+  --color-closed: #C9533F;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-sans: var(--font-instrument-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --container-site: 1440px;
+  --radius-card: 12px;
+  --shadow-card: 0 30px 60px -20px rgba(0, 0, 0, 0.55);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ---------- Type recipes ---------- */
+@utility display-h1 {
+  font-stretch: 78%; font-weight: 600; letter-spacing: -0.035em; line-height: 0.86;
+  font-size: clamp(64px, 8vw, 112px);
+}
+@utility display-h2 {
+  font-stretch: 78%; font-weight: 600; letter-spacing: -0.035em; line-height: 0.88;
+  font-size: clamp(48px, 6vw, 88px); text-wrap: balance;
+}
+@utility display-feature {
+  font-stretch: 78%; font-weight: 600; letter-spacing: -0.035em; line-height: 0.9;
+  font-size: clamp(48px, 5vw, 72px);
+}
+@utility display-banner {
+  font-stretch: 78%; font-weight: 600; letter-spacing: -0.035em; line-height: 0.92;
+  font-size: clamp(40px, 4vw, 56px);
+}
+@utility title-service { font-stretch: 80%; font-weight: 600; letter-spacing: -0.03em; line-height: 0.95; font-size: 36px; }
+@utility title-pillar  { font-stretch: 80%; font-weight: 600; letter-spacing: -0.02em; line-height: 1;    font-size: 28px; }
+@utility title-step    { font-stretch: 80%; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1;  font-size: 24px; overflow-wrap: anywhere; hyphens: auto; }
+@utility stat-number   { font-stretch: 78%; font-weight: 600; letter-spacing: -0.03em; line-height: 1;    font-size: clamp(36px, 4vw, 56px); }
+@utility wordmark      { font-stretch: 80%; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+
+@utility eyebrow    { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
+@utility num-label  { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; }
+@utility stat-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* ---------- Layout recipes ---------- */
+@utility container-site {
+  width: 100%; max-width: var(--container-site); margin-inline: auto;
+  padding-inline: clamp(20px, 4.4vw, 64px); box-sizing: border-box;
+}
+@utility section-y { padding-block: clamp(72px, 9vw, 128px); }
+
+/* ---------- Glass ---------- */
+@utility glass-nav {
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  backdrop-filter: blur(24px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+@utility glass-panel {
+  background: rgba(255, 255, 255, 0.74);
+  -webkit-backdrop-filter: blur(28px) saturate(1.3);
+  backdrop-filter: blur(28px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-nav, .glass-panel { background: rgba(255, 255, 255, 0.94); }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ---------- Base ---------- */
+@layer base {
+  html { -webkit-font-smoothing: antialiased; }
+  body { background: var(--color-white); color: var(--color-ink); font-family: var(--font-sans); }
+  a { color: inherit; text-underline-offset: 3px; }
+  ::selection { background: var(--color-turquoise); color: var(--color-ink); }
+  :focus-visible { outline: 2px solid var(--color-turquoise); outline-offset: 2px; }
+  .on-turquoise :focus-visible { outline-color: var(--color-ink); }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  section[id] { scroll-margin-top: 24px; }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  button, a { -webkit-tap-highlight-color: transparent; }
+  button { cursor: pointer; }
+  button, input, a { border-radius: 0; }
+  main:focus { outline: none; }
+  .on-turquoise:focus-visible { outline-color: var(--color-ink); }
+}
+
+@utility button-base {
+  display: inline-flex; align-items: center; justify-content: center; gap: 24px;
+  font-size: 15px; font-weight: 600; line-height: 1.4; text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+/* Keep rows balanced: the specification requires four, two or one pillar. */
+.pillars-grid > * { border-bottom: 1px solid var(--color-rule); }
+.pillars-grid > :last-child { border-bottom: 0; }
+@media (min-width: 420px) {
+  .pillars-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pillars-grid > :nth-child(odd) { border-right: 1px solid var(--color-rule); }
+  .pillars-grid > :nth-last-child(-n+2) { border-bottom: 0; }
+}
+@media (min-width: 860px) {
+  .pillars-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .pillars-grid > * { border-bottom: 0; }
+  .pillars-grid > :not(:last-child) { border-right: 1px solid var(--color-rule); }
+}
+
+/* A spanning feature must return to one row in a single-column grid. */
+.services-grid { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 746px) {
+  .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .service-feature { grid-row: span 2; }
+}
+@media (min-width: 1120px) {
+  .services-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
