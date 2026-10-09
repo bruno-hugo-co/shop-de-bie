@@ -1,0 +1,27 @@
+{
+  "$description": "Image manifest. Run `node design/scripts/download-assets.mjs` to fetch into public/images/. Photos are owned by Shop De Bie (taken 2019); confirm usage rights with the client.",
+  "baseUrl": "https://shopdebie.be/wp-content/uploads/",
+  "images": [
+    { "id": "hero-wasserij",        "src": "2019/03/DSC_8889-1.jpg", "out": "public/images/hero-wasserij.jpg",        "alt": "Wasmachines in de wasserij van Shop De Bie", "usedIn": "Hero (default)", "priority": true },
+    { "id": "story-bart-mady",      "src": "2019/03/DSC_8967.jpg",   "out": "public/images/story-bart-mady.jpg",      "alt": "Bart De Smet en Mady Buys, derde generatie van Shop De Bie", "usedIn": "Story section", "note": "TODO(client): confirm the people in the photo" },
+    { "id": "hero-strijkatelier",   "src": "2019/03/DSC_8955.jpg",   "out": "public/images/hero-strijkatelier.jpg",   "alt": "Het strijkatelier", "usedIn": "Alternative hero / later pages" },
+    { "id": "hero-droogkuismachine","src": "2026/05/59276178_2169674413117560_1991067059408076800_n.jpg", "out": "public/images/hero-droogkuismachine.jpg", "alt": "De droogkuismachine", "usedIn": "Alternative hero / Diensten page" },
+    { "id": "hero-winkel",          "src": "2019/03/DSC_8960.jpg",   "out": "public/images/hero-winkel.jpg",          "alt": "De winkel aan de Leopoldlaan", "usedIn": "Alternative hero" },
+    { "id": "shop-front",           "src": "2019/03/DSC_8852-1024x1024.jpg", "out": "public/images/shop-front.jpg",   "alt": "De winkel van Shop De Bie", "usedIn": "OG image fallback" },
+    { "id": "gallery-welkom",       "src": "2019/03/DSC_8861.jpg",   "out": "public/images/gallery/welkom.jpg",       "alt": "Welkom bij Shop De Bie", "usedIn": "Later: /ons-verhaal gallery" },
+    { "id": "gallery-vestentopper", "src": "2019/03/DSC_8940.jpg",   "out": "public/images/gallery/vestentopper.jpg", "alt": "Vestentopper", "usedIn": "Later: gallery" },
+    { "id": "gallery-broekentopper","src": "2019/03/DSC_8951.jpg",   "out": "public/images/gallery/broekentopper.jpg","alt": "Broekentopper", "usedIn": "Later: gallery" },
+    { "id": "gallery-kolpers",      "src": "2019/03/DSC_8913.jpg",   "out": "public/images/gallery/kol-en-manchettenpers.jpg", "alt": "Kol- en manchettenpers", "usedIn": "Later: gallery" },
+    { "id": "gallery-hemdentopper", "src": "2019/03/DSC_8917.jpg",   "out": "public/images/gallery/hemdentopper.jpg", "alt": "Hemdentopper", "usedIn": "Later: gallery" },
+    { "id": "gallery-voorschuur",   "src": "2019/03/DSC_8924.jpg",   "out": "public/images/gallery/voorschuurtafel.jpg", "alt": "Voorschuurtafel", "usedIn": "Later: gallery" },
+    { "id": "gallery-strijkster",   "src": "2019/03/DSC_8977.jpg",   "out": "public/images/gallery/strijkster.jpg",   "alt": "Een strijkster aan het werk", "usedIn": "Later: gallery" },
+    { "id": "gallery-wasmachine",   "src": "2019/03/DSC_8864.jpg",   "out": "public/images/gallery/oude-wasmachine.jpg", "alt": "Een oude wasmachine", "usedIn": "Later: gallery" },
+    { "id": "wassymbolen",          "src": "2019/03/symbolen-e1553247374780.jpg", "out": "public/images/wassymbolen.jpg", "alt": "Overzicht van wassymbolen", "usedIn": "Later: /werkwijze wasgids" }
+  ],
+  "generated": [
+    { "file": "src/app/icon.tsx", "what": "Favicon: turquoise square, ink 'db' in Instrument Sans 700 condensed" },
+    { "file": "src/app/apple-icon.tsx", "what": "180×180 version of the icon" },
+    { "file": "src/app/opengraph-image.tsx", "what": "1200×630: ink background, logo mark, title 'Met de ijver van een bij.'" }
+  ],
+  "logo": "Typographic only. No image file: build it as the <Logo> component (mark + wordmark) per design/README.md."
+}

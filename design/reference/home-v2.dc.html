@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Shop De Bie — Wasserij &amp; Droogkuis, Ninove</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+html,body{margin:0;padding:0;background:#FFFFFF;color:#0B2730;font-family:'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0B2730;text-underline-offset:3px}
+a:hover{color:#47616A}
+*::selection{background:#1BB0CE;color:#0B2730}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+
+<!-- HERO -->
+<section data-screen-label="Hero" style="position:relative;min-height:clamp(720px,100vh,980px);display:flex;flex-direction:column;background:#0B2730;overflow:hidden">
+  <sc-if value="{{ imgWasserij }}" hint-placeholder-val="{{ true }}"><img src="https://shopdebie.be/wp-content/uploads/2019/03/DSC_8889-1.jpg" alt="Wasserij" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+  <sc-if value="{{ imgStrijk }}" hint-placeholder-val="{{ false }}"><img src="https://shopdebie.be/wp-content/uploads/2019/03/DSC_8955.jpg" alt="Strijkatelier" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+  <sc-if value="{{ imgDroog }}" hint-placeholder-val="{{ false }}"><img src="https://shopdebie.be/wp-content/uploads/2026/05/59276178_2169674413117560_1991067059408076800_n.jpg" alt="Droogkuismachine" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+  <sc-if value="{{ imgWinkel }}" hint-placeholder-val="{{ false }}"><img src="https://shopdebie.be/wp-content/uploads/2019/03/DSC_8960.jpg" alt="De winkel" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+  <div style="position:absolute;inset:0;background:rgba(11,39,48,0.18)"></div>
+  <div style="position:relative;flex:1;display:flex;flex-direction:column;gap:48px;padding:clamp(16px,2.2vw,32px) clamp(16px,4.4vw,64px) clamp(24px,4.4vw,64px);box-sizing:border-box">
+    <header style="display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.8);backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);border:1px solid rgba(255,255,255,0.6);padding:10px 10px 10px 14px;min-height:68px;box-sizing:border-box">
+      <a href="#top" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:#0B2730">
+        <span style="width:44px;height:44px;background:#1BB0CE;display:grid;place-items:center;font-stretch:78%;font-weight:700;font-size:22px;letter-spacing:-0.04em">db</span>
+        <span style="font-stretch:80%;font-weight:700;font-size:26px;letter-spacing:-0.02em;line-height:1">Shop De Bie</span>
+      </a>
+      <nav style="display:flex;flex-wrap:wrap;gap:8px 32px;align-items:center;font-size:15px;font-weight:500">
+        <a href="#diensten" style="text-decoration:none">Diensten</a>
+        <a href="#werkwijze" style="text-decoration:none">Werkwijze</a>
+        <a href="#verhaal" style="text-decoration:none">Ons verhaal</a>
+        <a href="#bezoek" style="text-decoration:none">Contact</a>
+        <a href="#bezoek" style="background:#0B2730;color:#FFFFFF;padding:13px 20px;font-weight:600;text-decoration:none" style-hover="background:#1BB0CE;color:#0B2730">Ophaling aanvragen</a>
+      </nav>
+    </header>
+    <div style="flex:1;display:flex;align-items:flex-end">
+      <div style="background:rgba(255,255,255,0.74);backdrop-filter:blur(28px) saturate(1.3);-webkit-backdrop-filter:blur(28px) saturate(1.3);border:1px solid rgba(255,255,255,0.6);width:min(720px,100%);padding:clamp(28px,3.6vw,52px);box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase">
+          <span>Wasserij · Droogkuis · Ninove</span>
+          <sc-if value="{{ showStatus }}" hint-placeholder-val="{{ true }}">
+            <span style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;background:{{ statusDot }}"></span>{{ statusText }}</span>
+          </sc-if>
+        </div>
+        <h1 style="font-stretch:78%;font-weight:600;font-size:clamp(64px,8vw,112px);line-height:0.86;letter-spacing:-0.035em;margin:0">Met de ijver<br>van een bij.</h1>
+        <p style="margin:0;font-size:18px;line-height:1.55;max-width:30em;text-wrap:pretty">Sinds 1950 zorgen drie generaties voor uw kleding, gordijnen, dekens en trouwjurk.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;padding-top:4px">
+          <a href="#diensten" style="background:#0B2730;color:#FFFFFF;padding:16px 24px;font-size:15px;font-weight:600;text-decoration:none" style-hover="background:#1BB0CE;color:#0B2730">Ontdek onze diensten</a>
+          <a href="tel:+3254331112" style="border:1px solid #0B2730;color:#0B2730;padding:15px 23px;font-size:15px;font-weight:600;text-decoration:none" style-hover="background:#0B2730;color:#FFFFFF">Bel 054 33 11 12</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIJLERS -->
+<section data-screen-label="Pijlers" style="border-bottom:1px solid #0B2730;overflow:hidden">
+  <div style="max-width:1440px;margin:0 auto -1px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));width:calc(100% + 1px)">
+    <div style="padding:clamp(28px,3vw,40px) clamp(20px,3.4vw,48px);display:flex;flex-direction:column;gap:12px;border-right:1px solid #CFDDE1;border-bottom:1px solid #CFDDE1">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em">01</span>
+      <h3 style="font-stretch:80%;font-weight:600;font-size:28px;letter-spacing:-0.02em;line-height:1;margin:0">Vakmanschap</h3>
+      <p style="margin:0;font-size:15px;line-height:1.55;color:#47616A">Opgeleid in de behandeling van textiel en vlekken.</p>
+    </div>
+    <div style="padding:clamp(28px,3vw,40px) clamp(20px,3.4vw,48px);display:flex;flex-direction:column;gap:12px;border-right:1px solid #CFDDE1;border-bottom:1px solid #CFDDE1">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em">02</span>
+      <h3 style="font-stretch:80%;font-weight:600;font-size:28px;letter-spacing:-0.02em;line-height:1;margin:0">Groen bedrijf</h3>
+      <p style="margin:0;font-size:15px;line-height:1.55;color:#47616A">De juiste dosis water en ecologische reinigingsproducten.</p>
+    </div>
+    <div style="padding:clamp(28px,3vw,40px) clamp(20px,3.4vw,48px);display:flex;flex-direction:column;gap:12px;border-right:1px solid #CFDDE1;border-bottom:1px solid #CFDDE1">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em">03</span>
+      <h3 style="font-stretch:80%;font-weight:600;font-size:28px;letter-spacing:-0.02em;line-height:1;margin:0">Zorg voor textiel</h3>
+      <p style="margin:0;font-size:15px;line-height:1.55;color:#47616A">Uw kleding blijft langer mooi en gaat langer mee.</p>
+    </div>
+    <div style="padding:clamp(28px,3vw,40px) clamp(20px,3.4vw,48px);display:flex;flex-direction:column;gap:12px;border-right:1px solid #CFDDE1;border-bottom:1px solid #CFDDE1">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em">04</span>
+      <h3 style="font-stretch:80%;font-weight:600;font-size:28px;letter-spacing:-0.02em;line-height:1;margin:0">Meer tijd voor u</h3>
+      <p style="margin:0;font-size:15px;line-height:1.55;color:#47616A">Wij doen het werk, u geniet van de aangenamere dingen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DIENSTEN -->
+<section id="diensten" data-screen-label="Diensten" style="max-width:1440px;width:100%;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4.4vw,64px);box-sizing:border-box;display:flex;flex-direction:column;gap:48px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px 64px;align-items:end">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase">Diensten</span>
+      <h2 style="font-stretch:78%;font-weight:600;font-size:clamp(48px,6vw,88px);line-height:0.88;letter-spacing:-0.035em;margin:0">Van hemd tot trouwjurk.</h2>
+    </div>
+    <p style="margin:0;font-size:18px;line-height:1.55;color:#47616A;max-width:30em;text-wrap:pretty">Wij reinigen alle kledingstukken en huishoudtextiel: van ceremoniekleding en leder tot gordijnen, donsdekens en tapijten.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));border-top:1px solid #0B2730;border-left:1px solid #0B2730">
+    <div style="background:#1BB0CE;grid-row:span 2;border-right:1px solid #0B2730;border-bottom:1px solid #0B2730;padding:32px;display:flex;flex-direction:column;gap:14px;min-height:240px;box-sizing:border-box;min-width:0;min-height:300px">
+      <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase"><span>01</span><span>Specialisatie</span></div>
+      <h3 style="font-stretch:78%;font-weight:600;font-size:clamp(48px,5vw,72px);letter-spacing:-0.035em;line-height:0.9;margin:0;margin-top:auto">Droogkuis</h3>
+      <p style="margin:0;font-size:17px;line-height:1.55;max-width:26em">Kleding, ceremoniekleding, trouwjurken, leder en daim. Onze moderne reinigingsmachines werken met een ecologisch reinigingsmiddel op basis van alcohol.</p>
+    </div>
+    <div style="background:#FFFFFF;border-right:1px solid #0B2730;border-bottom:1px solid #0B2730;padding:32px;display:flex;flex-direction:column;gap:14px;min-height:240px;box-sizing:border-box;min-width:0">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em">02</span>
+      <h3 style="font-stretch:80%;font-weight:600;font-size:36px;letter-spacing:-0.03em;line-height:0.95;margin:0;margin-top:auto">Wassen</h3>
+      <p style="margin:0;font-size:16px;line-height:1.5;color:#47616A">Privé-, beroeps- en horecalinnen: tafel-, bed- en huishoudlinnen, hemden en meer.</p>
+    </div>
+    <div style="background:#FFFFFF;border-right:1px solid #0B2730;border-bottom:1px solid #0B2730;padding:32px;display:flex;flex-direction:column;gap:14px;min-height:240px;box-sizing:border-box;min-width:0">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em">03</span>
+      <h3 style="font-stretch:80%;font-weight:600;font-size:36px;letter-spacing:-0.03em;line-height:0.95;margin:0;margin-top:auto">Strijkdienst</h3>
+      <p style="margin:0;font-size:16px;line-height:1.5;color:#47616A">Hemden, broeken en vesten, afgewerkt op professionele persen en toppers.</p>
+    </div>
+    <div style="background:#FFFFFF;border-right:1px solid #0B2730;border-bottom:1px solid #0B2730;padding:32px;display:flex;flex-direction:column;gap:14px;min-height:240px;box-sizing:border-box;min-width:0">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em">04</span>
+      <h3 style="font-stretch:80%;font-weight:600;font-size:36px;letter-spacing:-0.03em;line-height:0.95;margin:0;margin-top:auto">Herstellingen &amp; stoppages</h3>
+      <p style="margin:0;font-size:16px;line-height:1.5;color:#47616A">Een losse zoom, een kapotte rits, een gaatje in uw favoriete trui.</p>
+    </div>
+    <div style="background:#FFFFFF;border-right:1px solid #0B2730;border-bottom:1px solid #0B2730;padding:32px;display:flex;flex-direction:column;gap:14px;min-height:240px;box-sizing:border-box;min-width:0">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em">05</span>
+      <h3 style="font-stretch:80%;font-weight:600;font-size:36px;letter-spacing:-0.03em;line-height:0.95;margin:0;margin-top:auto">Gordijnen &amp; dekens</h3>
+      <p style="margin:0;font-size:16px;line-height:1.5;color:#47616A">Over- en vouwgordijnen, stores, (dons)dekens, kussens en tapijten.</p>
+    </div>
+    <a href="#bezoek" style="grid-column:1/-1;background:#0B2730;color:#FFFFFF;border-right:1px solid #0B2730;border-bottom:1px solid #0B2730;padding:clamp(28px,3vw,40px) 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:20px 48px;align-items:end;text-decoration:none;box-sizing:border-box" style-hover="background:#123744">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;gap:16px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase"><span>06</span><span style="color:#1BB0CE">Aan huis</span></div>
+        <h3 style="font-stretch:78%;font-weight:600;font-size:clamp(40px,4vw,56px);letter-spacing:-0.035em;line-height:0.92;margin:0">Eigen ophaaldienst</h3>
+      </div>
+      <p style="margin:0;font-size:17px;line-height:1.55;color:#C5D3D7;max-width:30em">Geen tijd om langs te komen? Wij halen uw kleding en huishoudtextiel op en brengen het proper terug.</p>
+      <span style="justify-self:start;display:flex;gap:24px;background:#1BB0CE;color:#0B2730;padding:16px 24px;font-size:15px;font-weight:600">Ophaling aanvragen<span>→</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- VERHAAL -->
+<section id="verhaal" data-screen-label="Ons verhaal" style="background:#1BB0CE;color:#0B2730;border-top:1px solid #0B2730;border-bottom:1px solid #0B2730">
+  <div style="max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr))">
+    <div style="padding:clamp(56px,7vw,104px) clamp(20px,4.4vw,64px);display:flex;flex-direction:column;gap:32px;justify-content:space-between">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase">Ons verhaal · sinds 1950</span>
+        <h2 style="font-stretch:78%;font-weight:600;font-size:clamp(48px,6vw,88px);line-height:0.88;letter-spacing:-0.035em;margin:0;text-wrap:balance">De laatste van zeven.</h2>
+        <p style="margin:0;font-size:18px;line-height:1.6;max-width:32em;text-wrap:pretty">In 1950 namen onze grootouders een bestaande wasserij over en noemden ze ‘De Bie’, naar de naarstige bij. In de jaren ’90 telde Ninove nog zeven droogkuiszaken. Vandaag zijn wij de enige die overbleef.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #0B2730">
+        <div style="display:flex;flex-direction:column;gap:6px;padding:20px 16px 0 0"><span style="font-stretch:78%;font-weight:600;font-size:clamp(36px,4vw,56px);letter-spacing:-0.03em;line-height:1">1950</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Opgericht</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px;padding:20px 16px 0;border-left:1px solid #0B2730"><span style="font-stretch:78%;font-weight:600;font-size:clamp(36px,4vw,56px);letter-spacing:-0.03em;line-height:1">1991</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase">3e generatie</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px;padding:20px 16px 0;border-left:1px solid #0B2730"><span style="font-stretch:78%;font-weight:600;font-size:clamp(36px,4vw,56px);letter-spacing:-0.03em;line-height:1">2017</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase">Groen pand</span></div>
+      </div>
+      <a href="#" style="align-self:flex-start;display:flex;gap:24px;background:#0B2730;color:#FFFFFF;padding:16px 24px;font-size:15px;font-weight:600;text-decoration:none" style-hover="background:#FFFFFF;color:#0B2730">Lees ons verhaal<span>→</span></a>
+    </div>
+    <figure style="margin:0;position:relative;min-height:520px;border-left:1px solid #0B2730;background:#0B2730">
+      <img src="https://shopdebie.be/wp-content/uploads/2019/03/DSC_8967.jpg" alt="Bart De Smet en Mady Buys" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+      <figcaption style="position:absolute;left:0;bottom:0;background:#FFFFFF;padding:12px 18px;border-top:1px solid #0B2730;border-right:1px solid #0B2730;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em;text-transform:uppercase">Bart De Smet &amp; Mady Buys</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- WERKWIJZE -->
+<section id="werkwijze" data-screen-label="Werkwijze" style="max-width:1440px;width:100%;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4.4vw,64px);box-sizing:border-box;display:flex;flex-direction:column;gap:48px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:24px 64px;align-items:end">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase">Werkwijze</span>
+      <h2 style="font-stretch:78%;font-weight:600;font-size:clamp(48px,6vw,88px);line-height:0.88;letter-spacing:-0.035em;margin:0">Elk stuk krijgt een nummer.</h2>
+    </div>
+    <p style="margin:0;font-size:18px;line-height:1.55;color:#47616A;max-width:30em;text-wrap:pretty">Negen vaste stappen, van de toonbank tot de verpakking. Zo raakt er niets zoek en krijgt elk stuk de behandeling die het nodig heeft.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(max(min(100%,260px),calc(33.34% - 1px)),1fr));border-top:1px solid #CFDDE1;border-left:1px solid #CFDDE1">
+    <sc-for list="{{ steps }}" as="s" hint-placeholder-count="9">
+      <div style="background:#FFFFFF;border-right:1px solid #CFDDE1;border-bottom:1px solid #CFDDE1;padding:24px 28px;box-sizing:border-box;min-width:0;display:grid;grid-template-columns:40px minmax(0,1fr);gap:4px 12px;align-items:baseline">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;grid-row:span 2">{{ s.nr }}</span>
+        <span style="font-stretch:80%;font-weight:600;font-size:24px;letter-spacing:-0.02em;line-height:1.1;overflow-wrap:anywhere;hyphens:auto" lang="nl">{{ s.title }}</span>
+        <span style="font-size:15px;line-height:1.5;color:#47616A">{{ s.text }}</span>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<!-- KLANTENKAART -->
+<section data-screen-label="Klantenkaart" style="background:#0B2730;color:#FFFFFF">
+  <div style="max-width:1440px;margin:0 auto;padding:clamp(72px,9vw,120px) clamp(20px,4.4vw,64px);box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:56px 80px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#1BB0CE">Klantenkaart</span>
+      <h2 style="font-stretch:78%;font-weight:600;font-size:clamp(48px,6vw,88px);line-height:0.88;letter-spacing:-0.035em;margin:0;text-wrap:balance">Blijvende korting, elke keer opnieuw.</h2>
+      <p style="margin:0;font-size:18px;line-height:1.55;color:#C5D3D7;max-width:30em">Vraag uw Shop De Bie-klantenkaart aan de toonbank. De korting geldt op:</p>
+      <div style="display:flex;flex-direction:column;border-top:1px solid #2A4852">
+        <span style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2A4852;font-size:16px">Alle droogkuiskleding<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#C5D3D7">01</span></span>
+        <span style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2A4852;font-size:16px">Ceremoniekleding &amp; trouwjurken<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#C5D3D7">02</span></span>
+        <span style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2A4852;font-size:16px">Over- en vouwgordijnen<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#C5D3D7">03</span></span>
+        <span style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2A4852;font-size:16px">(Dons)dekens<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#C5D3D7">04</span></span>
+        <span style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #2A4852;font-size:16px">Regen- en skikleding<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#C5D3D7">05</span></span>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;padding:24px 0">
+      <div style="width:100%;max-width:440px;aspect-ratio:1.586;background:#1BB0CE;color:#0B2730;border-radius:12px;padding:28px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;transform:rotate(-4deg);box-shadow:0 30px 60px -20px rgba(0,0,0,0.55)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span style="width:48px;height:48px;background:#0B2730;color:#1BB0CE;display:grid;place-items:center;font-stretch:78%;font-weight:700;font-size:24px;letter-spacing:-0.04em">db</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase">Klantenkaart</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-stretch:78%;font-weight:600;font-size:40px;letter-spacing:-0.03em;line-height:1">Shop De Bie</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em">Nr. 1950 · blijvende korting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEZOEK -->
+<section id="bezoek" data-screen-label="Bezoek" style="max-width:1440px;width:100%;margin:0 auto;padding:clamp(72px,9vw,128px) clamp(20px,4.4vw,64px);box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px 64px">
+  <div style="display:flex;flex-direction:column;gap:28px">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase">Kom langs</span>
+    <h2 style="font-stretch:78%;font-weight:600;font-size:clamp(48px,6vw,88px);line-height:0.88;letter-spacing:-0.035em;margin:0">Leopoldlaan 39, Ninove.</h2>
+    <div style="display:flex;flex-direction:column;border-top:1px solid #0B2730">
+      <sc-for list="{{ hours }}" as="h" hint-placeholder-count="7">
+        <div style="display:flex;justify-content:space-between;gap:16px;padding:12px;border-bottom:1px solid #CFDDE1;background:{{ h.bg }};font-weight:{{ h.weight }};font-size:16px"><span>{{ h.day }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:14px;text-align:right">{{ h.hours }}</span></div>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      <a href="tel:+3254331112" style="background:#0B2730;color:#FFFFFF;padding:16px 24px;font-size:15px;font-weight:600;text-decoration:none" style-hover="background:#1BB0CE;color:#0B2730">Tel. 054 33 11 12</a>
+      <a href="tel:+32495520826" style="border:1px solid #0B2730;color:#0B2730;padding:15px 23px;font-size:15px;font-weight:600;text-decoration:none" style-hover="background:#0B2730;color:#FFFFFF">Gsm 0495 52 08 26</a>
+      <a href="https://maps.google.com/?q=Leopoldlaan+39,+9400+Ninove" target="_blank" style="border:1px solid #0B2730;color:#0B2730;padding:15px 23px;font-size:15px;font-weight:600;text-decoration:none" style-hover="background:#0B2730;color:#FFFFFF">Route plannen →</a>
+    </div>
+  </div>
+  <div style="border:1px solid #0B2730;background:#D6F0F6;min-height:460px">
+    <iframe title="Kaart Shop De Bie" src="https://maps.google.com/maps?q=Leopoldlaan%2039%2C%209400%20Ninove&amp;t=m&amp;z=16&amp;output=embed&amp;iwloc=near" loading="lazy" style="width:100%;height:100%;min-height:460px;border:0;display:block;filter:grayscale(0.4)"></iframe>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:#0B2730;color:#FFFFFF">
+  <div style="max-width:1440px;margin:0 auto;padding:clamp(56px,6vw,80px) clamp(20px,4.4vw,64px) 28px;box-sizing:border-box;display:flex;flex-direction:column;gap:56px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:40px">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <span style="width:44px;height:44px;background:#1BB0CE;color:#0B2730;display:grid;place-items:center;font-stretch:78%;font-weight:700;font-size:22px;letter-spacing:-0.04em">db</span>
+          <span style="font-stretch:80%;font-weight:700;font-size:28px;letter-spacing:-0.02em;line-height:1">Shop De Bie</span>
+        </div>
+        <p style="margin:0;font-size:15px;line-height:1.6;color:#C5D3D7;max-width:22em">Wasserij en droogkuis in Ninove. Familiebedrijf sinds 1950.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;line-height:1.5">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#1BB0CE">Bezoek</span>
+        <span>Leopoldlaan 39<br>9400 Ninove</span>
+        <span style="color:#C5D3D7">Ma–vr 09:00–12:00 · 13:00–18:00<br>Za 09:00–12:00</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:15px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#1BB0CE">Contact</span>
+        <a href="tel:+3254331112" style="color:#FFFFFF;text-decoration:none">054 33 11 12</a>
+        <a href="tel:+32495520826" style="color:#FFFFFF;text-decoration:none">0495 52 08 26</a>
+        <a href="https://www.facebook.com/shopdebie/" target="_blank" style="color:#FFFFFF">Facebook</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:15px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#1BB0CE">Menu</span>
+        <a href="#diensten" style="color:#FFFFFF;text-decoration:none">Diensten</a>
+        <a href="#werkwijze" style="color:#FFFFFF;text-decoration:none">Werkwijze</a>
+        <a href="#verhaal" style="color:#FFFFFF;text-decoration:none">Ons verhaal</a>
+        <a href="#bezoek" style="color:#FFFFFF;text-decoration:none">Contact</a>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;padding-top:24px;border-top:1px solid #2A4852;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#C5D3D7">
+      <span>© {{ year }} Shop De Bie · BE 0418.374.955</span>
+      <a href="#" style="color:#C5D3D7">Privacy &amp; cookies</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;heroImage&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Wasserij&quot;,&quot;Strijkatelier&quot;,&quot;Droogkuismachine&quot;,&quot;De winkel&quot;],&quot;default&quot;:&quot;Wasserij&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showOpenStatus&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { now: new Date() };
+  componentDidMount() { this.timer = setInterval(() => this.setState({ now: new Date() }), 60000); }
+  componentWillUnmount() { clearInterval(this.timer); }
+  status() {
+    const wk = [[540, 720], [780, 1080]];
+    const S = [[], wk, wk, wk, wk, wk, [[540, 720]]];
+    const names = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
+    const d = this.state.now, day = d.getDay(), m = d.getHours() * 60 + d.getMinutes();
+    const f = x => String(Math.floor(x / 60)).padStart(2, '0') + ':' + String(x % 60).padStart(2, '0');
+    const cur = S[day].find(([a, b]) => m >= a && m < b);
+    if (cur) return { open: true, text: 'Nu open tot ' + f(cur[1]) };
+    const later = S[day].find(([a]) => m < a);
+    if (later) return { open: false, text: 'Open om ' + f(later[0]) };
+    for (let i = 1; i <= 7; i++) {
+      const nd = (day + i) % 7;
+      if (S[nd].length) return { open: false, text: (i === 1 ? 'Morgen' : names[nd][0].toUpperCase() + names[nd].slice(1)) + ' open om ' + f(S[nd][0][0]) };
+    }
+  }
+  renderVals() {
+    const st = this.status();
+    const today = this.state.now.getDay();
+    const U = 'https://shopdebie.be/wp-content/uploads/';
+    const imgs = {
+      'Wasserij': ['2019/03/DSC_8889-1.jpg', 'Wasserij'],
+      'Strijkatelier': ['2019/03/DSC_8955.jpg', 'Strijkatelier'],
+      'Droogkuismachine': ['2026/05/59276178_2169674413117560_1991067059408076800_n.jpg', 'Droogkuismachine'],
+      'De winkel': ['2019/03/DSC_8960.jpg', 'De winkel']
+    };
+    const hk = imgs[this.props.heroImage] ? this.props.heroImage : 'Wasserij';
+    const hoursDef = [[1, 'Maandag', '09:00–12:00 · 13:00–18:00'], [2, 'Dinsdag', '09:00–12:00 · 13:00–18:00'], [3, 'Woensdag', '09:00–12:00 · 13:00–18:00'], [4, 'Donderdag', '09:00–12:00 · 13:00–18:00'], [5, 'Vrijdag', '09:00–12:00 · 13:00–18:00'], [6, 'Zaterdag', '09:00–12:00'], [0, 'Zondag', 'Gesloten']];
+    const steps = [
+      ['Markering', 'Ieder stuk krijgt een eigen nummer.'],
+      ['Sortering', 'Op kleur: wit, licht en donker.'],
+      ['Vlekkencheck', 'Elk stuk wordt nagekeken.'],
+      ['Vlekkenbehandeling', 'Stuk per stuk, met de juiste aanpak.'],
+      ['Reiniging', 'Machinaal, met ecologische producten.'],
+      ['Stomen', 'Ontspant de vezels, haalt kreuken weg.'],
+      ['Strijken', 'Afwerking op tafel en toppers.'],
+      ['Ticketcontrole', 'Uw stukken worden samengebracht.'],
+      ['Verpakking', 'Netjes verpakt, klaar om op te halen.']
+    ].map(([title, text], i) => ({ nr: String(i + 1).padStart(2, '0'), title, text }));
+    return {
+      imgWasserij: hk === 'Wasserij', imgStrijk: hk === 'Strijkatelier', imgDroog: hk === 'Droogkuismachine', imgWinkel: hk === 'De winkel',
+      showStatus: this.props.showOpenStatus ?? true,
+      statusText: st.text, statusDot: st.open ? '#1BB0CE' : '#C9533F',
+      hours: hoursDef.map(([d, day, hours]) => ({ day, hours, bg: d === today ? '#D6F0F6' : 'transparent', weight: d === today ? 600 : 400 })),
+      steps,
+      year: this.state.now.getFullYear()
+    };
+  }
+}
+</script>
+</body>
+</html>
