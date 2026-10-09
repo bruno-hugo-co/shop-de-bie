@@ -385,7 +385,7 @@ export const home = {
   },
   "accessibility": { "pillarsHeading": "Onze troeven" },
   "brand": {
-    "mark": "db",
+    "wordmark": "shop de bie",
     "facebookLabel": "Facebook"
   }
 } as const;

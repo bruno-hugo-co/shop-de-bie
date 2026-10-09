@@ -13,9 +13,9 @@ for (const width of [375, 768, 1024, 1440, 1920]) {
   console.log(width, await page.locator("h1").evaluate((el) => ({ font: getComputedStyle(el).fontFamily, stretch: getComputedStyle(el).fontStretch, size: getComputedStyle(el).fontSize })));
 }
 await writeFile("qa-artifacts/site/accessibility-tree.txt", await page.locator("body").ariaSnapshot());
-for (const route of ["icon", "apple-icon", "opengraph-image"]) {
+for (const [route, filename] of [["icon.svg", "icon.svg"], ["apple-icon.png", "apple-icon.png"], ["opengraph-image", "opengraph-image.png"]]) {
   const response = await page.request.get(`http://127.0.0.1:3100/${route}`);
-  await writeFile(`qa-artifacts/site/${route}.png`, await response.body());
+  await writeFile(`qa-artifacts/site/${filename}`, await response.body());
 }
 await browser.close();
 const fallbackBrowser = await firefox.launch({ firefoxUserPrefs: { "layout.css.backdrop-filter.enabled": false } });

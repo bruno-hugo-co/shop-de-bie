@@ -50,11 +50,22 @@ test("legacy URLs redirect once with 301, and privacy never loops", async ({ req
   expect((await request.get("/privacy")).status()).toBe(200);
   expect((await request.get("/sitemap.xml")).status()).toBe(200);
   expect((await request.get("/robots.txt")).status()).toBe(200);
-  for (const route of ["/icon", "/apple-icon", "/opengraph-image"]) {
+  for (const [route, contentType] of [
+    ["/favicon.ico", "image/x-icon"],
+    ["/icon.svg", "image/svg+xml"],
+    ["/apple-icon.png", "image/png"],
+    ["/icon-512.png", "image/png"],
+    ["/opengraph-image", "image/png"],
+  ]) {
     const response = await request.get(route);
     expect(response.status()).toBe(200);
-    expect(response.headers()["content-type"]).toContain("image/png");
+    expect(response.headers()["content-type"]).toContain(contentType);
   }
+  const manifest = await request.get("/manifest.webmanifest");
+  expect(manifest.status()).toBe(200);
+  expect((await manifest.json()).icons).toContainEqual({
+    src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any",
+  });
 });
 
 test("keyboard reaches every main control with visible focus", async ({ page }) => {

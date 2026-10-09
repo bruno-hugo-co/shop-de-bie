@@ -41,7 +41,7 @@ These scripts write ignored screenshots to `qa-artifacts/` and leave `design/` u
 - `src/lib/hours.ts` owns the weekly schedule and inclusive holiday closure ranges. Client widgets initialise after mount and refresh every minute.
 - Google Maps loads only after selecting “Kaart laden”. No analytics or cookie banner is included.
 - `/ons-verhaal` reuses the approved story section. `/privacy` retains `TODO(client)` placeholders and is excluded from indexing until approved.
-- Icons and the sharing image are generated with local, OFL-licensed Instrument Sans fonts; the website uses `next/font/google` with the width axis.
+- Branding follows `design/logo/README.md`: the lowercase “Stip” wordmark uses Instrument Sans at 80% width, and the supplied SVG/ICO/PNG marks provide the browser, Apple and manifest icons. The sharing image reuses the vector mark; its title uses locally bundled, OFL-licensed Instrument Sans.
 
 ## Deployment
 

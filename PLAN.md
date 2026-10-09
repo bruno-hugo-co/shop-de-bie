@@ -25,7 +25,7 @@ Read `AGENTS.md` first. Tick each task when it is done. Log any deviation from t
   - [x] `Eyebrow`: mono 12px, uppercase, 0.14em tracking
   - [x] `SectionHeader`: eyebrow + h2 left, lead paragraph right (2-col grid, wraps)
   - [x] `Button` variants: `ink`, `outline`, `turquoise`, `outlineLight`, `navCta` (spec §Buttons). Renders `<a>` when `href` is given
-  - [x] `Logo`: mark (44px turquoise square with "db") + wordmark; props `tone="light"|"dark"`, `size`
+  - [x] `Logo`: lowercase “Stip” wordmark; props `variant="onLight"|"onDark"|"onTurquoise"`, `size`; separate vector `LogoMark` (supersedes the original db design)
 
 ## Phase 2 — Sections (Server Components unless noted)
 Follow `design/README.md` for exact sizes. Build mobile-first, then check at every width.
@@ -58,7 +58,7 @@ Follow `design/README.md` for exact sizes. Build mobile-first, then check at eve
 ## Phase 4 — SEO, metadata, extras
 - [x] `metadata` in layout: title "Shop De Bie — Wasserij & droogkuis in Ninove", description from `home.json.seo`, `metadataBase` `https://shopdebie.be`, canonical, `openGraph`, `twitter`
 - [x] JSON-LD `DryCleaningOrLaundry` (schema.org): name, address, telephone, `openingHoursSpecification`, `vatID`, `sameAs` (Facebook), `foundingDate: "1950"`, image. Geo coordinates: `TODO(client)`, do not guess
-- [x] `app/icon.tsx` (32×32 and 180×180 apple-icon): turquoise square, "db" in Instrument Sans 700 condensed, ink colour
+- [x] `app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png`: supplied “Stip” icons; `public/icon-512.png` referenced by `app/manifest.ts` (supersedes generated db icons)
 - [x] `app/opengraph-image.tsx` (1200×630): ink background, logo mark, "Met de ijver van een bij." in condensed 600, white
 - [x] `sitemap.ts`, `robots.ts`
 - [x] 301 redirects from old WordPress URLs in `next.config.ts`:
@@ -71,6 +71,14 @@ Follow `design/README.md` for exact sizes. Build mobile-first, then check at eve
   - `/winkelmandje/`, `/cart/` → `/`
 - [x] `/privacy` page: simple text page in the site style. Copy is `TODO(client)`; use the placeholder structure in `home.json.privacy`
 - [x] Custom `not-found.tsx` in the site style ("Deze pagina is zoek. Wij vinden normaal alles terug." + button home)
+
+## Logo update — 1c “Stip” (2026-10-09)
+- [x] Apply design/logo/README.md as the new branding source of truth; keep all design files read-only.
+- [x] Use the supplied wordmark geometry: Instrument Sans 700, 80% width, −0.035em tracking, dotless i with the square at the exact provided offsets.
+- [x] Header: onLight / 30px; footer: onDark / 36px; loyalty card: onTurquoise / 40px and a 48px LogoMark. Preserve home links, accessible names and logo clear space.
+- [x] Copy the SVG, multi-size ICO, 180px Apple icon and 512px manifest icon byte-for-byte; remove the old generated icon routes.
+- [x] Reuse LogoMark in the Open Graph image; update metadata-route checks and browser capture tooling.
+- [x] Validation: lint, typecheck and production build pass; Playwright reports 38 passed and 2 intentionally skipped, with zero axe violations or browser errors. Check the layout at 375 / 768 / 1024 / 1440 / 1920px in Chromium, WebKit and Firefox and inspect the updated screenshots and Open Graph image.
 
 ## Phase 5 — QA
 - [x] Visual check against the reference at 375 / 768 / 1024 / 1440 / 1920
@@ -96,13 +104,14 @@ Follow `design/README.md` for exact sizes. Build mobile-first, then check at eve
 - Optional: a notice bar for holiday closures, fed by `closures` in `lib/hours.ts`
 
 ## Deviations from design
+- The explicitly requested design/logo handoff overrides the original db block in the reference HTML, old spec and completed foundation tasks. The logo is a non-interactive graphic; header/footer supply its navigation links, while the loyalty card remains decorative. No extra logo is added to the Story band, which had no logo placement.
 - The supplied scaffold used Next.js 16.4.0. Restored the required Next.js 15 stack (15.5.27), the PostCSS integration for Tailwind v4 and compatible ESLint configuration. Existing setup and all 15 local photos were verified rather than rerunning create-next-app over the repository.
 - The README/spec takes precedence over the HTML reference: the mobile disclosure replaces the wrapping desktop links below 900px; pillars use 2×2 at 768px (the reference shows 3+1); h2 headings use balanced wrapping; Maps starts with a click-to-load placeholder; the hero uses `100svh`. The 64px minimum hero title fits at 375px and was retained.
 - The site header visually sits inside the hero but is a sibling of `main` in the DOM, preserving a top-level banner landmark. The hero reserves the header's 68px row. A visually hidden h2 names the pillar group so card h3 headings do not skip a level.
 - Reserved opening-status width and non-wrapping hero title lines prevent a hydration/font-loading layout shift while retaining the neutral initial status.
 - Image descriptions were absent from home.json; copied the exact Dutch alt text from design/assets.json into the typed content export. Design files remain unchanged.
 - Added `storyCta` (specified in the README) alongside the PLAN's button variants. The whole pickup banner is one link, with a styled non-interactive CTA to avoid nested links.
-- Metadata images use locally bundled, OFL-licensed static condensed Instrument Sans fonts. A 1.04 horizontal adjustment brings their 75% condensed outline width to 78%; the website itself uses the true variable width axis through next/font/google.
+- The Open Graph title uses a locally bundled, OFL-licensed static condensed Instrument Sans font. A 1.04 horizontal adjustment brings its 75% condensed outline width to 78%; the website itself uses the true variable width axis through next/font/google. Browser icons now use the supplied “Stip” assets.
 - The supplied privacy structure remains a TODO(client) placeholder, with noindex and omission from the sitemap until approved. Unknown email and coordinates are omitted from JSON-LD.
 
 ## Validation — 2026-10-09

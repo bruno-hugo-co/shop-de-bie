@@ -1,12 +1,35 @@
 import { home } from "@/content/home";
 
-type LogoProps = { tone?: "light" | "dark"; size?: "header" | "footer"; href?: string };
+type Variant = "onLight" | "onDark" | "onTurquoise";
 
-export function Logo({ tone = "light", size = "header", href = "/#top" }: LogoProps) {
+const variants: Record<Variant, { text: string; dot: string }> = {
+  onLight: { text: "text-ink", dot: "bg-turquoise" },
+  onDark: { text: "text-white", dot: "bg-turquoise" },
+  onTurquoise: { text: "text-ink", dot: "bg-white" },
+};
+
+type LogoProps = {
+  variant?: Variant;
+  /** Wordmark size must be at least 18px; use LogoMark for smaller placements. */
+  size?: number | string;
+  className?: string;
+};
+
+/** Logo 1c "Stip". Preserve the dotless i and the supplied square offsets. */
+export function Logo({ variant = "onLight", size = 30, className = "" }: LogoProps) {
+  const colors = variants[variant];
+  const [beforeI, afterI] = home.brand.wordmark.split("i");
+
   return (
-    <a href={href} className={`flex shrink-0 items-center gap-3 no-underline ${tone === "dark" ? "text-white" : "text-ink"}`}>
-      <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center bg-turquoise text-[22px] font-bold tracking-[-0.04em] text-ink [font-stretch:78%]">{home.brand.mark}</span>
-      <span className={`wordmark ${size === "footer" ? "text-[28px]" : "text-[26px]"}`}>{home.business.name}</span>
-    </a>
+    <span
+      role="img"
+      aria-label={home.business.name}
+      className={`inline-block whitespace-nowrap font-sans font-bold leading-none tracking-[-0.035em] [font-stretch:80%] ${colors.text} ${className}`}
+      style={{ fontSize: typeof size === "number" ? `${size}px` : size }}
+    >
+      <span aria-hidden="true">
+        {beforeI}<span className="relative inline-block">ı<span className={`absolute left-1/2 top-[0.06em] h-[0.15em] w-[0.15em] -translate-x-1/2 ${colors.dot}`} /></span>{afterI}
+      </span>
+    </span>
   );
 }

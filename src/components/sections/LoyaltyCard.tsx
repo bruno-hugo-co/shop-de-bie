@@ -1,3 +1,5 @@
+import { Logo } from "@/components/site/Logo";
+import { LogoMark } from "@/components/site/LogoMark";
 import { home } from "@/content/home";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -13,8 +15,8 @@ export function LoyaltyCard() {
           <ul className="border-t border-rule-dark">{home.loyalty.items.map((item, index) => <li key={item} className="flex justify-between gap-6 border-b border-rule-dark py-[14px] text-base"><span>{item}</span><span aria-hidden="true" className="num-label text-muted-dark">{String(index + 1).padStart(2, "0")}</span></li>)}</ul>
         </div>
         <div aria-hidden="true" className="mx-auto flex aspect-[1.586] w-[94%] max-w-[440px] rotate-[-4deg] flex-col justify-between rounded-card bg-turquoise p-[clamp(20px,3vw,28px)] text-ink shadow-card">
-          <div className="flex items-center justify-between gap-4"><span className="grid size-12 place-items-center bg-ink text-2xl font-bold tracking-[-0.04em] text-turquoise [font-stretch:78%]">{home.brand.mark}</span><span className="eyebrow">{home.loyalty.card.label}</span></div>
-          <div><p className="text-[40px] leading-none font-semibold tracking-[-0.03em] [font-stretch:78%]">{home.loyalty.card.name}</p><p className="eyebrow mt-3">{home.loyalty.card.sub}</p></div>
+          <div className="flex items-center justify-between gap-4"><LogoMark size={48} className="shrink-0" /><span className="eyebrow">{home.loyalty.card.label}</span></div>
+          <div><Logo variant="onTurquoise" size={40} /><p className="eyebrow mt-3">{home.loyalty.card.sub}</p></div>
         </div>
       </Container>
     </section>

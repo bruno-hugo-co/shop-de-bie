@@ -46,7 +46,6 @@
 @utility title-pillar  { font-stretch: 80%; font-weight: 600; letter-spacing: -0.02em; line-height: 1;    font-size: 28px; }
 @utility title-step    { font-stretch: 80%; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1;  font-size: 24px; overflow-wrap: anywhere; hyphens: auto; }
 @utility stat-number   { font-stretch: 78%; font-weight: 600; letter-spacing: -0.03em; line-height: 1;    font-size: clamp(36px, 4vw, 56px); }
-@utility wordmark      { font-stretch: 80%; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
 
 @utility eyebrow    { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
 @utility num-label  { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; }
