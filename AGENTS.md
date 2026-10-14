@@ -1,117 +1,62 @@
 # AGENTS.md — Shop De Bie website
 
-Instructions for coding agents (Codex, Claude Code, Copilot) working in this repository.
+## Project and source of truth
 
-## Project
-Marketing website for **Shop De Bie**, a family-run laundry and dry-cleaning business in Ninove, Belgium (est. 1950).
-Phase 1 delivers **one page: the homepage**, built from the design in `/design`.
-Site language: **Dutch (nl-BE)**. All visible copy is Dutch; code, comments and commits are English.
+Dutch (nl-BE) marketing website for Shop De Bie, a family-run laundry and dry-cleaning business in Ninove (est. 1950). Code, comments and commits are English.
 
-## Source of truth
-| What | Where |
-|---|---|
-| Visual design (open in a browser) | `design/reference/home-v2.dc.html` |
-| Written spec: sections, sizes, states | `design/README.md` |
-| Design tokens | `design/tokens.json`, `design/tailwind-theme.css` |
-| All copy and business data | `design/content/home.json` |
-| Image manifest + download script | `design/assets.json`, `design/scripts/download-assets.mjs` |
-| Open questions for the client | `design/open-questions.md` |
-| Build plan and task list | `PLAN.md` |
+The client replaced the entire brand direction on 2026-10-14. **Artboard `1b Fris` in `design/reference/shop-de-bie-home-new.dc.html` is the visual and copy reference, with the explicitly requested header/navigation and logo from `1a Zacht`.** The client also supplied a screenshot confirming the orange db symbol, green “Shop de bie” wordmark and orange tagline. Open the reference in a browser; other artboard elements are not alternatives to mix in. The original `design/README.md`, tokens, `home-v2.dc.html` and `design/logo/` describe the superseded design.
 
-- `/design` is **read-only**. Never edit files in it. If the design and the spec disagree, follow `design/README.md` and add a note in `PLAN.md` under "Deviations".
-- The reference HTML uses inline styles and a small runtime (`support.js`). It is a **visual reference, not code to copy**. Rebuild it as idiomatic React/Tailwind.
-- Copy content from `home.json` into `src/content/` (typed). Do not rewrite, shorten or "improve" copy.
+- `/design` remains read-only. Rebuild the reference as idiomatic React/Tailwind; do not copy its inline-style runtime.
+- `src/content/home.ts` contains the exact new Dutch copy and service data. Original business details and image descriptions are retained from `design/content/home.json` and `design/assets.json`.
+- `src/app/globals.css` contains the new tokens and repeated utility recipes.
+- `PLAN.md` tracks current work, deviations, validation and client dependencies.
+- Do not invent prices, email addresses, collection areas or coordinates. Record missing facts as `TODO(client)` in `PLAN.md`, never edit `design/open-questions.md`.
 
-## Stack
-- Next.js 15 (App Router) with React 19 and TypeScript `strict`
-- Tailwind CSS v4 (CSS-first config through `@theme`)
-- `next/font/google` for fonts; `next/image` for images
-- pnpm
-- No UI component libraries (no shadcn, MUI, Chakra), no icon libraries, no animation libraries. Arrows are the text glyph `→`.
-- Allowed extra dev dependencies: `@axe-core/playwright` and `@playwright/test` for QA, `sharp` (used by Next).
+## Stack and commands
 
-## Commands
-```bash
+Next.js 15 App Router, React 19, TypeScript strict, Tailwind CSS v4 with CSS-first `@theme`, pnpm. Use `next/font/google` and `next/image`. No UI, icon or animation libraries. Existing additional development dependencies: `@axe-core/playwright`, `@playwright/test`, `sharp`.
+
+```sh
 pnpm install
-pnpm dev                       # http://localhost:3000
+pnpm dev
 pnpm lint
-pnpm typecheck                 # tsc --noEmit
+pnpm typecheck
 pnpm build
-node design/scripts/download-assets.mjs   # downloads photos into public/images
-pnpm test:e2e                  # Playwright smoke + axe
-```
-Run `pnpm lint && pnpm typecheck && pnpm build` before you call a task done.
-
-## Directory layout (target)
-```
-src/
-  app/
-    layout.tsx            fonts, <html lang="nl-BE">, metadata, JSON-LD
-    page.tsx              composes the homepage sections
-    globals.css           @import "tailwindcss"; theme from design/tailwind-theme.css
-    icon.tsx              generated favicon (logo mark)
-    opengraph-image.tsx   generated OG image
-    sitemap.ts, robots.ts
-  components/
-    sections/             Hero, Pillars, Services, Story, Process, LoyaltyCard, Visit
-    site/                 SiteHeader, MobileMenu, SiteFooter, Logo
-    ui/                   Button, Eyebrow, SectionHeader, Container, OpenStatus, HoursTable, MapEmbed
-  content/home.ts         typed copy and data (from design/content/home.json)
-  lib/hours.ts            opening-hours logic (Europe/Brussels)
-  lib/seo.ts              JSON-LD builder
-public/images/            photos (downloaded by the script)
-design/                   read-only handoff
+pnpm test:e2e
+node scripts/capture-reference.mjs
+node scripts/inspect-browser.mjs
+node scripts/generate-brand-icons.mjs
 ```
 
-## Design rules (do not break)
-1. **Colours**: use only the tokens in `design/tokens.json`. Do not add new colours or Tailwind default palette colours (`blue-500` etc.).
-2. **Turquoise `#1BB0CE` is a fill colour.** Never use it as text colour on white or light backgrounds (contrast 2.4:1). On turquoise fills, text is always ink `#0B2730`. Turquoise text is allowed only on ink `#0B2730` backgrounds (≈6:1), for small labels.
-3. **Square corners everywhere.** `border-radius: 0`. The only exception is the loyalty card visual (12px).
-4. **Hairlines** are 1px: `ink` on light sections, `rule` (#CFDDE1) for inner dividers, `rule-dark` (#2A4852) on ink.
-5. **Typography**: one family, Instrument Sans.
-   - Display/headings use the condensed width: `font-stretch: 78%`, weight 600, negative tracking (see the spec).
-   - Body copy uses normal width (100%).
-   - Labels and numbers use IBM Plex Mono, uppercase, wide tracking.
-   - Load Instrument Sans with the `wdth` axis: `Instrument_Sans({ subsets:['latin'], axes:['wdth'], variable:'--font-instrument-sans' })`. Without the axis, `font-stretch` does nothing.
-6. **Glass** (hero nav + hero panel) uses `backdrop-filter`. Always add an `@supports not (backdrop-filter: blur(1px))` fallback: an opaque `rgba(255,255,255,0.94)` background.
-7. Use `clamp()` values from the spec for fluid type and spacing. Do not swap them for fixed breakpoint jumps.
-8. No shadows except the loyalty card. No gradients. No emoji.
+Run `pnpm lint && pnpm typecheck && pnpm build` before calling a task done. Browser tests use a production server on port 3101. Capture scripts write ignored artifacts to `qa-artifacts/`; `QA_BASE_URL` can override the inspection URL.
 
-## Behaviour rules
-- **Opening status and today's row** depend on the current time in **Europe/Brussels**, not server or UTC time. Compute on the client after mount (`useEffect`) so server and client HTML match. Render a neutral placeholder until mounted. Refresh every 60s.
-- All hours live in `src/lib/hours.ts` as data, including a `closures` array for holidays.
-- **Google Maps**: do not load the iframe on page load (GDPR, performance). Show a static placeholder with a "Kaart laden" button and a "Route plannen" link. Load the iframe only after a click.
-- Smooth anchor scrolling. Add `scroll-margin-top` to anchored sections. Respect `prefers-reduced-motion` (disable smooth scroll).
-- Phone numbers are `tel:` links in E.164 format (`tel:+3254331112`).
+## Current design — 1b Fris
 
-## Accessibility (required)
-- WCAG 2.2 AA. Run axe in Playwright with zero serious or critical violations.
-- Add a skip link "Naar inhoud" and use landmark elements (`header`, `nav aria-label="Hoofdmenu"`, `main`, `footer`).
-- One `h1` (hero). Section titles are `h2`, cards are `h3`.
-- Visible focus on every interactive element: `outline: 2px solid #1BB0CE; outline-offset: 2px`. On turquoise backgrounds, use an ink outline instead.
-- The mobile menu is a real disclosure: `aria-expanded`, `aria-controls`, closes on Escape, keeps focus inside while open, and returns focus to the button.
-- Every image has Dutch alt text from `home.json`. Decorative overlays get `aria-hidden`.
+- Figtree for text/headings. The logo uses outlined Barlow Bold for “Shop de bie” and Barlow Semi Condensed 600 for the uppercase tagline. No Instrument Sans or mono labels; no extra logo webfont is needed.
+- Core colours: green `#6DBE45`, orange `#EE7D3A`, ink `#15302B`, body `#3F534D`, muted `#556660`, white. Use only the reference-derived theme tokens.
+- Rounded pill buttons, rounded cards, soft green/peach gradients and the reference's subtle shadows replace the old square/turquoise/glass direction.
+- At 1440px, use 64px page gutters, a 620px square hero photo, 96px hero title, 64px section headings, 120px section spacing. Maintain the reference's proportions; use fluid sizing for smaller screens.
+- Cap content at 1440px and extend section backgrounds on wider screens. No mobile artboard was supplied: adapt to stacked cards, a disclosure menu below 1280px, and a three/two/one-column process grid.
+- Header exception requested by the client: 1a Zacht's 44px contact strip, white 100px navigation row, 120px desktop gutters, plain links spaced 40px apart and green outlined pickup CTA, with the approved 1a logo and Figtree navigation text. On mobile, omit the address in the contact strip and show the disclosure. The header occupies normal document flow above the 1b hero gradient.
+- Header/footer and the Open Graph image use the same outlined 1a logo SVG. The loyalty card uses an ink version of the same geometry on green. Favicon, Apple and manifest icons use the orange db symbol on white, matching the 1a icon specimen. These are brand graphics; ordinary copy must meet AA contrast. Regenerate assets with `scripts/generate-brand-icons.mjs`; do not substitute the old uppercase 1b logo or SDB icon.
+- Section order: hero, four pillars, services with six tabs, process, story, side-by-side loyalty/contact cards, footer.
+- All photos are local under `public/images`; do not hotlink.
 
-## Performance targets
-- Lighthouse mobile: Performance ≥ 90, Accessibility 100, Best Practices ≥ 95, SEO 100.
-- Hero image: `next/image` with `fill`, `priority`, `sizes="100vw"`, quality 75. Other images are lazy and have correct `sizes`.
-- No client JavaScript except: OpenStatus, HoursTable highlight, MobileMenu, MapEmbed. Everything else is a Server Component.
+## Behaviour and accessibility
 
-## Code style
-- Function components, named exports, one component per file.
-- Tailwind classes in JSX. Use arbitrary values (`text-[clamp(64px,8vw,112px)]`) only where the spec needs them. Put repeated recipes in `@utility` blocks in `globals.css` (e.g. `display-xl`, `eyebrow`, `glass`).
-- Content comes from `src/content/home.ts`, never hard-coded in components (except aria labels).
-- Conventional commits (`feat:`, `fix:`, `chore:`), one PLAN.md task per commit where possible.
+- Only interactive components are client components: `OpenStatus`, `HoursTable`, `MobileMenu`, `ServiceTabs`. Everything else stays on the server.
+- Opening hours and closures live in `src/lib/hours.ts`. Calculate current status and today's row in **Europe/Brussels** only after mount, with a neutral server placeholder. Refresh every 60 seconds and on visibility changes.
+- The new reference has no embedded map. “Route plannen” opens external Google Maps; do not load Maps on page load or add analytics/cookie banners.
+- The client confirmed that **all service detail links and “Ophaling aanvragen” link to `#bezoek` for now**. Detail pages and collection forms are future work.
+- Service tabs require tab/tabpanel roles, selected state, roving tab focus, arrow/Home/End navigation and matching local images.
+- Mobile menu uses `aria-expanded`/`aria-controls`, closes on Escape/navigation, traps focus and returns focus to its button. Restore scrolling when closed or resized to desktop.
+- Preserve skip link “Naar inhoud”, header/nav/main/footer landmarks, one h1, h2 section titles, h3 card titles, Dutch image descriptions and visible ink focus outlines.
+- Smooth anchors have a 24px scroll margin; respect reduced motion.
+- Phone links use E.164 (`tel:+3254331112`).
+- WCAG 2.2 AA; axe must report zero serious/critical violations.
 
-## Don'ts
-- Don't edit `/design`.
-- Don't hotlink images from `shopdebie.be`. Use `public/images` (run the download script).
-- Don't add a cookie banner. Without the map iframe and without analytics, none is needed. If analytics is added later, use a cookieless tool (Plausible or Vercel Analytics).
-- Don't invent business facts (prices, emails, pick-up areas, coordinates). Use `TODO(client)` and list them in `design/open-questions.md` → `PLAN.md`.
+## Code and completion
 
-## Definition of done (per task)
-- [ ] Matches the reference at 375, 768, 1024, 1440 and 1920 px wide
-- [ ] `pnpm lint && pnpm typecheck && pnpm build` pass
-- [ ] No console errors or hydration warnings
-- [ ] Keyboard and screen-reader pass on the changed parts
-- [ ] Task ticked in `PLAN.md`
+Use named function components, one per file. Tailwind classes in JSX; repeated recipes in `@utility`. Copy comes from the typed content module (except aria labels). Conventional commits, one PLAN task per commit where possible.
+
+A task is complete when it matches the reference at 1440px, works at 375/768/1024/1920px, passes lint/typecheck/build and applicable browser/keyboard/axe checks, has no console or hydration errors, and is recorded in PLAN. Keep physical-device/screen-reader limitations explicit. Lighthouse mobile targets: Performance ≥90, Accessibility 100, Best Practices ≥95, SEO 100.

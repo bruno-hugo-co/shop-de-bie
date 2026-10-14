@@ -1,142 +1,82 @@
-# PLAN.md — Shop De Bie homepage (Next.js)
+# PLAN.md — Shop De Bie, 1b Fris
 
-Goal: rebuild `design/reference/home-v2.dc.html` as a production Next.js site that is fast, accessible and easy to extend with sub-pages later.
-Read `AGENTS.md` first. Tick each task when it is done. Log any deviation from the design at the bottom.
+The client replaced the previous brand direction on 2026-10-14. Rebuild the homepage from **artboard 1b Fris** in `design/reference/shop-de-bie-home-new.dc.html`, with the subsequently requested **1a Zacht header/navigation and logo**. The old turquoise/square design, “Stip” logo and their completed implementation plan are superseded. Keep all design files read-only.
 
----
+## Logo update — 1a Zacht (2026-10-14)
 
-## Phase 0 — Setup
-- [x] `pnpm create next-app@latest . --ts --eslint --tailwind --app --src-dir --import-alias "@/*" --use-pnpm`
-- [x] Confirm Tailwind v4 (`@import "tailwindcss";` in `globals.css`, no `tailwind.config.js` needed)
-- [x] Add scripts: `typecheck` (`tsc --noEmit`), `test:e2e` (`playwright test`)
-- [x] Set `tsconfig` `strict: true`
-- [x] Run `node design/scripts/download-assets.mjs` → `public/images/*` exist
-- [x] Add `.nvmrc` (Node 20 LTS or newer)
+- [x] Match the client screenshot to the large 1a logo specimen: orange db symbol, green “Shop de bie” in Barlow Bold, orange uppercase tagline in Barlow Semi Condensed 600.
+- [x] Generate outlined colour and ink SVGs with the specimen's exact symbol geometry, spacing and typography; preserve the original screenshot and all design files.
+- [x] Apply the colour logo in header/footer and the Open Graph image, and the ink variant on the green loyalty card.
+- [x] Replace SDB browser/Apple/manifest icons with the orange symbol on white from the 1a icon specimen; remove the unused logo webfont.
+- [x] Validate lint/typecheck/build, responsive layouts, keyboard/axe and regenerated logo/icon/social assets.
 
-## Phase 1 — Foundations
-- [x] `layout.tsx`: `<html lang="nl-BE">`, fonts via `next/font/google`
-  - `Instrument_Sans({ subsets:['latin'], axes:['wdth'], variable:'--font-instrument-sans', display:'swap' })`
-  - `IBM_Plex_Mono({ subsets:['latin'], weight:['400','500'], variable:'--font-plex-mono', display:'swap' })`
-- [x] `globals.css`: paste `design/tailwind-theme.css` (the `@theme` block and `@utility` recipes). Add base styles: body ink on white, `::selection` turquoise/ink, `a` colours, `scroll-behavior:smooth` inside `@media (prefers-reduced-motion: no-preference)`
-- [x] Global focus-visible style (see AGENTS.md)
-- [x] `src/content/home.ts`: typed export of `design/content/home.json`
-- [x] UI primitives:
-  - [x] `Container`: max-w 1440, px `clamp(20px,4.4vw,64px)`
-  - [x] `Eyebrow`: mono 12px, uppercase, 0.14em tracking
-  - [x] `SectionHeader`: eyebrow + h2 left, lead paragraph right (2-col grid, wraps)
-  - [x] `Button` variants: `ink`, `outline`, `turquoise`, `outlineLight`, `navCta` (spec §Buttons). Renders `<a>` when `href` is given
-  - [x] `Logo`: lowercase “Stip” wordmark; props `variant="onLight"|"onDark"|"onTurquoise"`, `size`; separate vector `LogoMark` (supersedes the original db design)
+The full logo uses a 366×100 viewBox and displays at 183×50px in the header/footer. The symbol is 60×100 with a 14px stem and 12px circular strokes. Barlow fonts and their OFL license remain bundled for reproducible vector generation. The screenshot is used as a reference, not cropped into a raster website asset.
 
-## Phase 2 — Sections (Server Components unless noted)
-Follow `design/README.md` for exact sizes. Build mobile-first, then check at every width.
-- [x] **SiteHeader** (inside the hero): glass bar, Logo, nav links, CTA "Ophaling aanvragen"
-- [x] **MobileMenu** (client): below 900px, show a "Menu" button in place of the nav links. Opens a glass panel under the bar with the links stacked (48px rows) and the CTA full width
-- [x] **Hero**: full-bleed photo, 18% ink overlay, glass panel bottom-left with eyebrow row + OpenStatus, h1, lead, 2 buttons
-- [x] **OpenStatus** (client): dot + text from `lib/hours.ts`
-- [x] **Pillars**: 4 cells with hairlines; 4 across from ~860px, 2×2 below, 1 column under 420px
-- [x] **Services** (`#diensten`): 3-col grid. Droogkuis is a turquoise feature cell spanning 2 rows; 4 white cells; Ophaaldienst is a full-width ink banner. No empty cells at any width
-- [x] **Story** (`#verhaal`): turquoise band, text column + 3 stats + button; photo column with caption tag
-- [x] **Process** (`#werkwijze`): 9 steps, **max 3 columns** (3×3), 2 columns on tablet, 1 on mobile. Long words hyphenate (`hyphens:auto`, `lang="nl"`)
-- [x] **LoyaltyCard**: ink band, copy + ruled list of 5 items; card visual rotated −4°
-- [x] **Visit** (`#bezoek`): h2 address, HoursTable, 3 contact buttons; MapEmbed on the right
-- [x] **HoursTable** (client highlight): today's row gets the tint background and weight 600
-- [x] **MapEmbed** (client): click-to-load (see AGENTS.md); placeholder uses the tint background, a mono label and a button
-- [x] **SiteFooter**: 4 columns (brand, bezoek, contact, menu), bottom bar with © year + VAT number + privacy link
+Validation: lint, typecheck and production build pass without warnings; all 40 Playwright tests pass across Chromium, WebKit and Firefox. Zero axe violations, console errors, hydration warnings or overflow at 375 / 768 / 1024 / 1440 / 1920px. Compared the vector with the rendered 1a logo specimen and inspected desktop/mobile placement, icon and Open Graph image. Reference and logo previews are in `qa-artifacts/zacht-logo/`; site screenshots are in `qa-artifacts/fris-site/`. Physical-device and live screen-reader release checks remain open.
 
-## Phase 3 — Behaviour & logic
-- [x] `lib/hours.ts`
-  - `schedule`: ISO weekday → array of `[open, close]` in minutes
-  - `closures`: `{ from: 'YYYY-MM-DD', to: 'YYYY-MM-DD', label }[]` (empty for now)
-  - `getNowInBrussels()` using `Intl.DateTimeFormat('nl-BE', { timeZone:'Europe/Brussels', ... })`
-  - `getOpenStatus(now)` → `{ open:boolean, label:string }`. Labels exactly as in `home.json.status`
-  - Unit-test the edge cases: 08:59, 09:00, 11:59, 12:00 (lunch), 13:00, 17:59, 18:00, Saturday 12:00, Sunday, a closure day
-- [x] Hydration-safe client rendering (placeholder until mounted)
-- [x] Anchor offsets: `scroll-margin-top: 24px` on sections
-- [x] Every "Ophaling aanvragen" CTA links to `#bezoek` for now (`TODO(client)`: replace with `/contact?onderwerp=ophaling` in phase 2)
-- [x] "Lees ons verhaal" links to `/ons-verhaal`. Create a minimal stub page with the Story section and a footer until the design is ready
+## Header update — 1a Zacht (2026-10-14)
 
-## Phase 4 — SEO, metadata, extras
-- [x] `metadata` in layout: title "Shop De Bie — Wasserij & droogkuis in Ninove", description from `home.json.seo`, `metadataBase` `https://shopdebie.be`, canonical, `openGraph`, `twitter`
-- [x] JSON-LD `DryCleaningOrLaundry` (schema.org): name, address, telephone, `openingHoursSpecification`, `vatID`, `sameAs` (Facebook), `foundingDate: "1950"`, image. Geo coordinates: `TODO(client)`, do not guess
-- [x] `app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png`: supplied “Stip” icons; `public/icon-512.png` referenced by `app/manifest.ts` (supersedes generated db icons)
-- [x] `app/opengraph-image.tsx` (1200×630): ink background, logo mark, "Met de ijver van een bij." in condensed 600, white
-- [x] `sitemap.ts`, `robots.ts`
-- [x] 301 redirects from old WordPress URLs in `next.config.ts`:
-  - `/thuispagina` → `/`
-  - `/geschiedenis/` → `/ons-verhaal`
-  - `/gallerij/` → `/ons-verhaal`
-  - `/info/` → `/#werkwijze`
-  - `/contactformulier/` → `/#bezoek`
-  - `/privacy/` → `/privacy`
-  - `/winkelmandje/`, `/cart/` → `/`
-- [x] `/privacy` page: simple text page in the site style. Copy is `TODO(client)`; use the placeholder structure in `home.json.privacy`
-- [x] Custom `not-found.tsx` in the site style ("Deze pagina is zoek. Wij vinden normaal alles terug." + button home)
+- [x] Inspect the 1a header in a browser and replace the floating navigation with its white contact/navigation bars and green outlined CTA.
+- [x] Keep Figtree typography and existing contact data/Brussels logic; the initial 1b wordmark was subsequently replaced by the approved 1a logo above.
+- [x] Adapt mobile navigation and its focus/scroll behaviour, moving the disclosure breakpoint to 1280px to accommodate the wider links and 1a gutters.
+- [x] Validate the final build, five viewport widths, keyboard/menu/anchors, live opening status and accessibility.
 
-## Logo update — 1c “Stip” (2026-10-09)
-- [x] Apply design/logo/README.md as the new branding source of truth; keep all design files read-only.
-- [x] Use the supplied wordmark geometry: Instrument Sans 700, 80% width, −0.035em tracking, dotless i with the square at the exact provided offsets.
-- [x] Header: onLight / 30px; footer: onDark / 36px; loyalty card: onTurquoise / 40px and a 48px LogoMark. Preserve home links, accessible names and logo clear space.
-- [x] Copy the SVG, multi-size ICO, 180px Apple icon and 512px manifest icon byte-for-byte; remove the old generated icon routes.
-- [x] Reuse LogoMark in the Open Graph image; update metadata-route checks and browser capture tooling.
-- [x] Validation: lint, typecheck and production build pass; Playwright reports 38 passed and 2 intentionally skipped, with zero axe violations or browser errors. Check the layout at 375 / 768 / 1024 / 1440 / 1920px in Chromium, WebKit and Firefox and inspect the updated screenshots and Open Graph image.
+The header has 44px and 100px rows at desktop, with 120px gutters at 1440px. It sits above the hero in normal flow. The top-bar status mirrors the hero badge without duplicate live announcements; both keep neutral server placeholders. The address is omitted from the narrow mobile contact strip. Header reference captures are in `qa-artifacts/zacht-header/`.
 
-## Phase 5 — QA
-- [x] Visual check against the reference at 375 / 768 / 1024 / 1440 / 1920
-- [ ] Safari and iOS: glass (`-webkit-backdrop-filter`), `font-stretch` condensed rendering, `100svh` hero — WebKit with iPhone emulation passes; physical Safari/iOS verification remains
-- [x] Firefox: fallback when backdrop-filter is disabled
-- [x] Keyboard-only walkthrough (skip link → nav → CTAs → map button → footer)
-- [x] Playwright: homepage loads, no console errors, all anchors scroll, mobile menu opens/closes with Escape, axe has zero serious/critical violations
-- [x] Lighthouse mobile meets the targets in AGENTS.md
-- [ ] Check all `tel:` links on a phone
+Validation: lint, typecheck and production build passed; all 40 Playwright tests passed in Chromium, WebKit and Firefox, with zero axe violations or browser errors. Inspected the header at 375 / 768 / 1024 / 1440 / 1920px; its desktop height is exactly 144px. Existing physical-device and live screen-reader release checks remain open. The Lighthouse numbers below describe the original 1b baseline, before this header update.
 
-## Phase 6 — Deploy
-- [ ] Vercel project, production branch `main`, preview deploys on PRs
-- [ ] Domain `shopdebie.be` + `www` redirect (`TODO(client)`: DNS access)
-- [ ] After DNS switch: submit sitemap in Google Search Console; update the Google Business Profile website URL
+## Brand rebuild — 2026-10-14
 
----
+- [x] Inspect the actual rendered 1b artboard, its styles, service states and local photo mappings.
+- [x] Confirm service-link destinations: client chose the existing contact block; detail pages come later.
+- [x] Replace theme, fonts and primitives with Figtree, Barlow, green/orange, rounded cards and reference gradients/shadows.
+- [x] Copy exact new text and service data into typed `src/content/home.ts`; retain established business data.
+- [x] Rebuild header/disclosure, hero, pillars, service tabs, process, story, loyalty/contact cards and footer in the reference order.
+- [x] Implement accessible service tabs with arrow/Home/End navigation and correct image/content states.
+- [x] Retain Brussels opening status, holiday support, 60-second refresh, hydration-safe placeholders and mobile-menu focus handling.
+- [x] Replace logo, favicon, Apple/manifest icons and social image; remove old fonts, logo mark, glass styles and unused map/section components.
+- [x] Apply the brand to story/privacy/404 pages; preserve metadata, JSON-LD, sitemap, robots and legacy redirects.
+- [x] Update repository instructions, documentation, reference capture and regression tests.
+- [x] Validate lint, typecheck and production build after the final changes.
+- [x] Check all five viewport widths and browser engines, tabs, keyboard/menu/anchors, images, console/hydration and axe.
+- [x] Inspect reference comparison screenshots, icon/social assets and Lighthouse mobile results.
 
-## Later (not in phase 1, design still to be made)
-- `/diensten`: one detail block per service + "Voor bedrijven & horeca" quote CTA
-- `/werkwijze`: 9 steps in full + a wash-symbol guide (wasgids)
-- `/ons-verhaal`: timeline 1950 / 1991 / 2017 / today, the meaning of the name, gallery (12 photos in `assets.json`)
-- `/contact`: form with subject chips (Vraag / Ophaling aanvragen / Klantenkaart / Offerte bedrijf). Server Action + Resend. Needs `TODO(client)` email
-- Optional: a notice bar for holiday closures, fed by `closures` in `lib/hours.ts`
+## Deviations and implementation decisions
 
-## Deviations from design
-- The explicitly requested design/logo handoff overrides the original db block in the reference HTML, old spec and completed foundation tasks. The logo is a non-interactive graphic; header/footer supply its navigation links, while the loyalty card remains decorative. No extra logo is added to the Story band, which had no logo placement.
-- The supplied scaffold used Next.js 16.4.0. Restored the required Next.js 15 stack (15.5.27), the PostCSS integration for Tailwind v4 and compatible ESLint configuration. Existing setup and all 15 local photos were verified rather than rerunning create-next-app over the repository.
-- The README/spec takes precedence over the HTML reference: the mobile disclosure replaces the wrapping desktop links below 900px; pillars use 2×2 at 768px (the reference shows 3+1); h2 headings use balanced wrapping; Maps starts with a click-to-load placeholder; the hero uses `100svh`. The 64px minimum hero title fits at 375px and was retained.
-- The site header visually sits inside the hero but is a sibling of `main` in the DOM, preserving a top-level banner landmark. The hero reserves the header's 68px row. A visually hidden h2 names the pillar group so card h3 headings do not skip a level.
-- Reserved opening-status width and non-wrapping hero title lines prevent a hydration/font-loading layout shift while retaining the neutral initial status.
-- Image descriptions were absent from home.json; copied the exact Dutch alt text from design/assets.json into the typed content export. Design files remain unchanged.
-- Added `storyCta` (specified in the README) alongside the PLAN's button variants. The whole pickup banner is one link, with a styled non-interactive CTA to avoid nested links.
-- The Open Graph title uses a locally bundled, OFL-licensed static condensed Instrument Sans font. A 1.04 horizontal adjustment brings its 75% condensed outline width to 78%; the website itself uses the true variable width axis through next/font/google. Browser icons now use the supplied “Stip” assets.
-- The supplied privacy structure remains a TODO(client) placeholder, with noindex and omission from the sitemap until approved. Unknown email and coordinates are omitted from JSON-LD.
+- The explicit client redesign overrides the old design README, tokens, logo handoff, typography, square-corner/no-gradient rules and original copy. `/design` is unmodified. Current tokens are extracted from 1b into `globals.css`.
+- The reference is a fixed 1440px desktop artboard. Smaller screens use fluid type/gutters, stacked cards, a disclosure below 1280px and 3/2/1 process columns. Wider screens retain a 1440px content maximum.
+- Preserve the exact desktop typography and colours of the logo as outlined Barlow vector paths; font licenses and an icon-generation script are included. Ordinary text uses accessible ink/body/muted colours; focus uses ink on the new light/green surfaces.
+- The new reference includes interactive service tabs, so `ServiceTabs` is an additional small client component beyond the old allowed list. Hidden panels preserve semantic associations; only active content is available to assistive technology.
+- The reference's decorative button spans are real links/buttons. Client-approved service and pickup links target `#bezoek`; no unsupported detail page or form is invented.
+- The new contact card has a route link and no map iframe. The obsolete map component and its click-to-load UI have been removed; no Google requests occur on page load.
+- Reference heading levels are corrected to one h1, h2 sections and h3 cards. Hours use a semantic table and Brussels time rather than the prototype's machine-local date.
+- The logo specimen strip and the 1c artboard are not website sections. The explicitly requested header layout and logo/icon geometry come from 1a; the rest follows 1b.
 
-## Validation — 2026-10-09
+## Validation — original 1b baseline, 2026-10-14
 
-- `pnpm lint`, `pnpm typecheck`, `pnpm build`: passed on Next.js 15.5.27 / React 19.3.0.
-- `pnpm test:e2e`: 38 passed; 2 intentionally skipped because the Firefox-only fallback check does not apply to Chromium/WebKit. Nine opening-hours tests cover all requested boundaries, holidays, Brussels midnight and both daylight-saving transitions.
-- Chromium, Firefox and WebKit: tested 375, 768, 1024, 1440 and 1920px; no horizontal overflow, unintended hero wrapping, console errors or hydration warnings. All axe rules pass on the homepage, including best-practice rules. Supporting pages also pass the WCAG axe checks.
-- Keyboard checks include the skip link, visible focus, menu wrapping/Escape/focus return, anchor offsets, map loading and footer. The generated accessibility tree was inspected; a live VoiceOver/physical-device walkthrough remains a release check.
-- Firefox with `layout.css.backdrop-filter.enabled=false`: both glass backgrounds resolve to rgba(255,255,255,0.94).
-- Local production Lighthouse mobile (final run): Performance 98, Accessibility 100, Best Practices 100, SEO 100; CLS 0. Reports: `qa-artifacts/lighthouse.report.html` and `.json` (ignored local artifacts).
-- Reference/site screenshots: `qa-artifacts/reference/`, `qa-artifacts/site/`; Playwright evidence: `test-results/`, `playwright-report/` (ignored local artifacts).
-- Physical phone calls via tel links have not been tested; all href values are validated as E.164.
+- `pnpm lint`, `pnpm typecheck`, `pnpm build`: passed on the final implementation.
+- `pnpm test:e2e`: **40 passed**, no skipped tests. Chromium, WebKit and Firefox cover 375 / 768 / 1024 / 1440 / 1920px, all six service states, keyboard tab navigation, mobile-menu focus/Escape, reduced motion, anchors, local images, metadata and redirects.
+- Axe: zero violations on the homepage and supporting pages. No console errors, hydration warnings or horizontal overflow at the five viewport widths.
+- The rendered accessibility tree was inspected for landmarks, heading order, tab/panel associations, contact links and opening-hours semantics. Physical-device and live screen-reader checks remain separate release checks below.
+- Visual review: compared the rendered native 1440px artboard with the implementation, then inspected mobile/tablet/wide desktop screenshots. Intro is 1066px tall and process is 700px tall, matching the artboard; full-page height rounds to 4483px in both. Reviewed the new logo, favicon/Apple icon and Open Graph image.
+- Local production Lighthouse mobile: **Performance 99, Accessibility 100, Best Practices 100, SEO 100**. LCP 2.3s, CLS 0, total blocking time 10ms. Reports: `qa-artifacts/fris-lighthouse.report.html` and `.json`.
+- Browser artifacts: `qa-artifacts/fris-reference/`, `qa-artifacts/fris-site/`, `test-results/` and `playwright-report/` (all ignored). Local production preview runs at `http://localhost:3101`.
+- `git diff --check` passes. No supplied file in `/design` was edited. No production deployment was performed.
 
 ## Deployment and client dependencies
 
-`vercel.json` and README deployment instructions are ready. No Vercel CLI login/project linkage or DNS access is available in this workspace. No deployment, domain switch, Search Console submission or Google Business Profile update has been performed. Phase 6 remains open.
+- [ ] Configure the Vercel project, main production branch and PR previews in the client's account.
+- [ ] Connect shopdebie.be and the www redirect once DNS access is provided.
+- [ ] After launch, submit the sitemap and update the Google Business Profile website URL.
+- [ ] Physical Safari/iOS, real phone `tel:` actions and live screen-reader walkthrough.
 
-Carry-forward from the read-only design/open-questions.md:
+Carry-forward from `design/open-questions.md` and the original implementation:
 
-- TODO(client): Vercel team/project and domain/DNS access; production branch main and preview deployments must be configured in that account.
-- TODO(client): approved privacy policy and email address.
-- TODO(client): pickup towns, days, price/minimum order, customer eligibility and approval of the supplied pickup text. Pickup CTAs continue to link to #bezoek; replace with /contact?onderwerp=ophaling when the future contact flow is designed.
-- TODO(client): approval of designer-written service and process descriptions.
-- TODO(client): photo usage rights and confirmation of the people in the portrait.
-- TODO(client): exact Google Business Profile and verified coordinates.
+- TODO(client): approved privacy policy and email address. `/privacy` retains its supplied placeholders and remains noindex.
+- TODO(client): pickup towns, days, price/minimum order and eligibility. No new business facts are inferred from the design.
+- TODO(client): final publication approval for supplied descriptions and photo usage/portrait identities.
+- TODO(client): exact Google Business Profile and verified coordinates; unknown data stays out of JSON-LD.
 - TODO(client): holiday periods for the currently empty closures array.
+- TODO(client): Vercel account/project and domain/DNS access. No deployment or domain change is part of this local redesign.
 
-The optional prices, reviews, new photography, Facebook confirmation and business/horeca flow from the handoff remain future work.
+Later work: service detail pages, expanded company history/gallery, a contact/collection form and optional price/review content. The current redesign remains the homepage with existing supporting pages.

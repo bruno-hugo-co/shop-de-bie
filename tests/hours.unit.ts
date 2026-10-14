@@ -2,10 +2,10 @@ import { test, expect } from "@playwright/test";
 import { getNowInBrussels, getOpenStatus } from "../src/lib/hours";
 
 for (const [time, open, label] of [
-  ["08:59", false, "Open om 09:00"],
+  ["08:59", false, "Vandaag open om 09:00"],
   ["09:00", true, "Nu open tot 12:00"],
   ["11:59", true, "Nu open tot 12:00"],
-  ["12:00", false, "Open om 13:00"],
+  ["12:00", false, "Vandaag open om 13:00"],
   ["13:00", true, "Nu open tot 18:00"],
   ["17:59", true, "Nu open tot 18:00"],
   ["18:00", false, "Morgen open om 09:00"],

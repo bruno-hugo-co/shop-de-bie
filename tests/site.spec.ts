@@ -9,10 +9,16 @@ import AxeBuilder from "@axe-core/playwright";
   await expect(page.getByRole("link", { name: "Naar inhoud" })).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.locator("main")).toBeFocused();
-  for (const [label, id] of [["Diensten", "diensten"], ["Werkwijze", "werkwijze"], ["Ons verhaal", "verhaal"], ["Contact", "bezoek"]]) {
+  for (const [label, id] of [["Diensten", "diensten"], ["Werkwijze", "werkwijze"], ["Ons verhaal", "verhaal"], ["Klantenkaart", "klantenkaart"], ["Contact", "bezoek"]]) {
     await page.locator("[data-desktop-nav]").getByRole("link", { name: label, exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`#${id}$`));
-    await expect.poll(() => page.locator(`#${id}`).evaluate((element) => Math.round(element.getBoundingClientRect().top))).toBe(24);
+    // The final cards may hit the bottom of the document before the 24px offset.
+    await expect.poll(() => page.locator(`#${id}`).evaluate(element => {
+      const rect = element.getBoundingClientRect();
+      const maximumScroll = document.documentElement.scrollHeight - innerHeight;
+      const expectedTop = Math.max(24, rect.top + scrollY - maximumScroll);
+      return Math.abs(rect.top - expectedTop);
+    })).toBeLessThanOrEqual(1);
   }
   for (const href of await page.locator('a[href^="tel:"]').evaluateAll((links) => links.map((link) => link.getAttribute("href")))) expect(href).toMatch(/^tel:\+32\d+$/);
   await expect(page).toHaveTitle("Shop De Bie — Wasserij & droogkuis in Ninove");
@@ -25,10 +31,10 @@ import AxeBuilder from "@axe-core/playwright";
 test("client clock refreshes opening status and today's row in Brussels", async ({ page }) => {
   await page.clock.install({ time: new Date("2026-10-05T09:59:30Z") });
   await page.goto("/");
-  await expect(page.getByRole("status")).toHaveText("Nu open tot 12:00");
+  await expect(page.getByRole("status")).toHaveText(["Nu open tot 12:00", "Nu open tot 12:00"]);
   await expect(page.locator('tr[aria-current="date"]')).toContainText("Maandag");
   await page.clock.fastForward(60_000);
-  await expect(page.getByRole("status")).toHaveText("Open om 13:00");
+  await expect(page.getByRole("status")).toHaveText(["Vandaag open om 13:00", "Vandaag open om 13:00"]);
 });
 
 for (const path of ["/ons-verhaal", "/privacy", "/bestaat-niet"]) {
@@ -84,5 +90,5 @@ test("keyboard reaches every main control with visible focus", async ({ page }) 
     expect(focused.outline).toBe("solid");
     if (focused.text === "Privacy & cookies") break;
   }
-  expect(labels).toEqual(expect.arrayContaining(["Naar inhoud", "Ontdek onze diensten", "Kaart laden", "Privacy & cookies"]));
+  expect(labels).toEqual(expect.arrayContaining(["Naar inhoud", "Onze diensten", "Meer over Droogkuis →", "Privacy & cookies"]));
 });

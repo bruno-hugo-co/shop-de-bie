@@ -54,27 +54,41 @@ test("mobile menu traps focus, closes with Escape and navigation, and restores s
   expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
 });
 
-test("map loads only after consent and reduced motion disables smooth scrolling", async ({ page }) => {
+test("route link opens Maps externally and reduced motion disables smooth scrolling", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.route("https://maps.google.com/**", (route) => route.fulfill({ contentType: "text/html", body: "<html lang='nl'><title>Kaart</title></html>" }));
   await page.goto("/");
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe("auto");
   await expect(page.locator("iframe")).toHaveCount(0);
-  await page.getByRole("button", { name: "Kaart laden" }).click();
-  await expect(page.locator("iframe")).toHaveAttribute("src", /maps\.google\.com/);
-  await expect(page.locator("iframe")).toHaveAttribute("title", "Kaart Shop De Bie");
+  const route = page.getByRole("link", { name: "Route plannen" });
+  await expect(route).toHaveAttribute("href", /google\.com\/maps\/dir/);
+  await expect(route).toHaveAttribute("target", "_blank");
 });
 
-test("Firefox uses opaque glass when backdrop-filter is disabled", async ({ browserName, playwright }) => {
-  test.skip(browserName !== "firefox", "Firefox exposes the feature switch used by this test.");
-  const browser = await playwright.firefox.launch({ firefoxUserPrefs: { "layout.css.backdrop-filter.enabled": false } });
-  try {
-    const page = await browser.newPage();
-    await page.goto("http://127.0.0.1:3100/");
-    expect(await page.evaluate(() => CSS.supports("backdrop-filter", "blur(1px)"))).toBe(false);
-    await expect(page.locator(".glass-panel")).toHaveCSS("background-color", "rgba(255, 255, 255, 0.94)");
-    await expect(page.locator("header.glass-nav")).toHaveCSS("background-color", "rgba(255, 255, 255, 0.94)");
-  } finally {
-    await browser.close();
+test("all six services work with mouse and keyboard, with matching local images", async ({ page }) => {
+  await page.goto("/");
+  const tabs = page.getByRole("tab");
+  await expect(tabs).toHaveCount(6);
+  for (let index = 0; index < 6; index++) {
+    await tabs.nth(index).click();
+    await expect(tabs.nth(index)).toHaveAttribute("aria-selected", "true");
+    const panel = page.getByRole("tabpanel");
+    await expect(panel).toHaveCount(1);
+    await expect(panel.getByRole("heading")).toHaveText(["Droogkuis", "Wassen", "Strijken", "Herstellingen", "Gordijnen & dekens", "Ophaaldienst"][index]);
+    await expect(panel.getByRole("link")).toHaveAttribute("href", "#bezoek");
+    await panel.locator("img").scrollIntoViewIfNeeded();
+    await expect.poll(() => panel.locator("img").evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
+  await tabs.last().focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(tabs.first()).toBeFocused();
+  await expect(tabs.first()).toHaveAttribute("aria-selected", "true");
+  await page.keyboard.press("End");
+  await expect(tabs.last()).toBeFocused();
+  await page.keyboard.press("Home");
+  await expect(tabs.first()).toBeFocused();
+  await page.keyboard.press("ArrowUp");
+  await expect(tabs.last()).toBeFocused();
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations).toEqual([]);
 });

@@ -1,16 +1,23 @@
 import { home } from "@/content/home";
-import { Container } from "@/components/ui/Container";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 
 export function Process() {
   return (
-    <section id="werkwijze" aria-labelledby="process-title" className="section-y">
-      <Container>
-        <SectionHeader {...home.process} id="process-title" />
-        <ol className="grid grid-cols-[repeat(auto-fill,minmax(max(min(100%,260px),calc(33.34%_-_1px)),1fr))] border-t border-l border-rule">
-          {home.process.steps.map((step) => <li key={step.nr} className="grid grid-cols-[40px_minmax(0,1fr)] content-start items-baseline gap-x-3 gap-y-1 border-r border-b border-rule px-7 py-6"><span className="num-label row-span-2">{step.nr}</span><h3 className="title-step" lang="nl">{step.title}</h3><p className="text-[15px] leading-[1.55] text-muted">{step.text}</p></li>)}
+    <section id="werkwijze" aria-labelledby="process-title" className="mx-auto max-w-site px-[clamp(12px,2.2222vw,32px)]">
+      <div className="process-background flex flex-col gap-12 rounded-[40px] px-[clamp(20px,2.2222vw,32px)] py-[clamp(48px,6.6667vw,96px)]">
+        <div className="grid items-end gap-6 md:grid-cols-2 md:gap-20 min-[1200px]:px-8">
+          <h2 id="process-title" className="display-h2">{home.process.titleLines.map(line => <span key={line} className="block">{line}</span>)}</h2>
+          <p className="text-xl leading-[1.6] text-body">{home.process.lead}</p>
+        </div>
+        <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {home.process.steps.map(step => <li key={step.nr} className="flex items-start gap-[18px] rounded-[20px] bg-white p-6">
+            <span className="grid size-11 shrink-0 place-items-center rounded-full bg-green text-[15px] font-bold">{step.nr}</span>
+            <div className="flex min-w-0 flex-col gap-1">
+              <h3 className="text-xl leading-[normal] font-bold tracking-[-0.01em] hyphens-auto">{step.title}</h3>
+              <p className="text-base leading-[1.5] text-muted">{step.text}</p>
+            </div>
+          </li>)}
         </ol>
-      </Container>
+      </div>
     </section>
   );
 }

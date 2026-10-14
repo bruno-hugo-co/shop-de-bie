@@ -3,7 +3,6 @@ import { home } from "@/content/home";
 import { Story } from "@/components/sections/Story";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { Container } from "@/components/ui/Container";
 
 export const metadata: Metadata = {
   title: `${home.story.title} — ${home.business.name}`, description: home.story.text,
@@ -12,5 +11,5 @@ export const metadata: Metadata = {
 };
 
 export default function StoryPage() {
-  return <><Container className="py-6"><SiteHeader homePage={false} /></Container><main id="inhoud" tabIndex={-1}><Story standalone /></main><SiteFooter homePage={false} /></>;
+  return <><div id="top" className="bg-hero"><SiteHeader homePage={false} /></div><main id="inhoud" tabIndex={-1}><Story standalone /></main><SiteFooter homePage={false} /></>;
 }

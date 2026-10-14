@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { home } from "@/content/home";
-import { Button } from "@/components/ui/Button";
 
 export function MobileMenu({ homePage = true }: { homePage?: boolean }) {
   const [open, setOpen] = useState(false);
@@ -38,7 +37,7 @@ export function MobileMenu({ homePage = true }: { homePage?: boolean }) {
         }
       }
     }
-    const breakpoint = window.matchMedia("(min-width: 900px)");
+    const breakpoint = window.matchMedia("(min-width: 1280px)");
     const onResize = () => {
       if (breakpoint.matches) {
         setOpen(false);
@@ -55,13 +54,13 @@ export function MobileMenu({ homePage = true }: { homePage?: boolean }) {
   }, [open]);
 
   return (
-    <div ref={rootRef} className="min-[900px]:hidden">
-      <button ref={buttonRef} type="button" aria-expanded={open} aria-controls="mobile-navigation" onClick={() => open ? close() : setOpen(true)} className="button-base border border-ink px-4 py-3 hover:bg-ink hover:text-white">
+    <div ref={rootRef} className="min-[1280px]:hidden">
+      <button ref={buttonRef} type="button" aria-expanded={open} aria-controls="mobile-navigation" onClick={() => open ? close() : setOpen(true)} className="button-base border border-rule bg-white px-5 py-3 hover:bg-tint">
         {open ? home.nav.menuClose : home.nav.menuButton}
       </button>
-      <nav id="mobile-navigation" hidden={!open} aria-label="Hoofdmenu" className="glass-nav absolute inset-x-0 top-[calc(100%+12px)] max-h-[calc(100svh-120px)] overflow-y-auto p-5">
+      <nav id="mobile-navigation" hidden={!open} aria-label="Hoofdmenu" className="absolute inset-x-5 top-full max-h-[calc(100svh-180px)] overflow-y-auto rounded-3xl border border-rule bg-white p-5 shadow-badge">
         {home.nav.links.map((link) => <a key={link.href} href={href(link.href)} onClick={close} className="flex min-h-12 items-center border-b border-rule font-medium hover:underline">{link.label}</a>)}
-        <Button href={href(home.nav.cta.href)} variant="navCta" onClick={close} className="mt-5 w-full">{home.nav.cta.label}</Button>
+        <a href={href(home.nav.cta.href)} onClick={close} className="nav-cta mt-5 w-full hover:bg-tint">{home.nav.cta.label}</a>
       </nav>
     </div>
   );

@@ -1,5 +1,6 @@
-// Copy from design/content/home.json. Schedule and closures live in lib/hours.ts.
-// Image descriptions come from design/assets.json (home.json contains image IDs only).
+// Copy and service data transcribed from artboard 1b Fris and its reference script.
+// Business data and Dutch image descriptions retain the original handoff values.
+// Schedule and closures live in lib/hours.ts.
 export const home = {
   "business": {
     "name": "Shop De Bie",
@@ -43,7 +44,7 @@ export const home = {
   },
   "status": {
     "openUntil": "Nu open tot {time}",
-    "opensToday": "Open om {time}",
+    "opensToday": "Vandaag open om {time}",
     "opensTomorrow": "Morgen open om {time}",
     "opensOnDay": "{Day} open om {time}",
     "closedForHoliday": "Gesloten · {label}"
@@ -61,6 +62,10 @@ export const home = {
       {
         "label": "Ons verhaal",
         "href": "#verhaal"
+      },
+      {
+        "label": "Klantenkaart",
+        "href": "#klantenkaart"
       },
       {
         "label": "Contact",
@@ -82,84 +87,121 @@ export const home = {
       "Met de ijver",
       "van een bij."
     ],
-    "lead": "Sinds 1950 zorgen drie generaties voor uw kleding, gordijnen, dekens en trouwjurk.",
+    "lead": "Sinds 1950 zorgen drie generaties voor uw kleding, gordijnen, dekens en trouwjurk. Ecologisch gereinigd in Ninove.",
     "primary": {
-      "label": "Ontdek onze diensten",
-      "href": "#diensten"
+      "label": "Ophaling aanvragen",
+      "href": "#bezoek"
     },
     "secondary": {
-      "label": "Bel 054 33 11 12",
-      "href": "tel:+3254331112"
+      "label": "Onze diensten",
+      "href": "#diensten"
+    },
+    "badge": {
+      "title": "De laatste droogkuis van Ninove",
+      "text": "Sinds 1950 · drie generaties"
     }
   },
   "pillars": [
     {
-      "nr": "01",
       "title": "Vakmanschap",
-      "text": "Opgeleid in de behandeling van textiel en vlekken."
+      "text": "Opgeleid in textiel- en vlekkenbehandeling."
     },
     {
-      "nr": "02",
       "title": "Groen bedrijf",
-      "text": "De juiste dosis water en ecologische reinigingsproducten."
+      "text": "De juiste dosis water, ecologische producten."
     },
     {
-      "nr": "03",
       "title": "Zorg voor textiel",
-      "text": "Uw kleding blijft langer mooi en gaat langer mee."
+      "text": "Uw kleding blijft langer mooi."
     },
     {
-      "nr": "04",
       "title": "Meer tijd voor u",
-      "text": "Wij doen het werk, u geniet van de aangenamere dingen."
+      "text": "Wij doen het werk, u geniet."
     }
   ],
   "services": {
-    "eyebrow": "Diensten",
-    "title": "Van hemd tot trouwjurk.",
+    "titleLines": [
+      "Van hemd",
+      "tot trouwjurk."
+    ],
     "lead": "Wij reinigen alle kledingstukken en huishoudtextiel: van ceremoniekleding en leder tot gordijnen, donsdekens en tapijten.",
-    "feature": {
-      "nr": "01",
-      "tag": "Specialisatie",
-      "title": "Droogkuis",
-      "text": "Kleding, ceremoniekleding, trouwjurken, leder en daim. Onze moderne reinigingsmachines werken met een ecologisch reinigingsmiddel op basis van alcohol."
-    },
+    "moreLabel": "Meer over {service}",
     "items": [
+      {
+        "nr": "01",
+        "title": "Droogkuis",
+        "text": "Onze moderne reinigingsmachines werken met een ecologisch reinigingsmiddel op basis van alcohol. Zacht voor de vezels en voor het milieu, zodat uw kleding langer mooi blijft.",
+        "items": [
+          "Dagelijkse kleding",
+          "Ceremoniekleding & trouwjurken",
+          "Leder & daim"
+        ],
+        "image": "hero-droogkuismachine",
+        "href": "#bezoek"
+      },
       {
         "nr": "02",
         "title": "Wassen",
-        "text": "Privé-, beroeps- en horecalinnen: tafel-, bed- en huishoudlinnen, hemden en meer."
+        "text": "Privé-, beroeps- en horecalinnen, gewassen met de juiste dosis water en ecologische reinigingsproducten.",
+        "items": [
+          "Tafel- en bedlinnen",
+          "Huishoudlinnen",
+          "Beroeps- en horecalinnen"
+        ],
+        "image": "hero-wasserij",
+        "href": "#bezoek"
       },
       {
         "nr": "03",
-        "title": "Strijkdienst",
-        "text": "Hemden, broeken en vesten, afgewerkt op professionele persen en toppers."
+        "title": "Strijken",
+        "text": "Hemden, broeken en vesten worden afgewerkt op professionele persen en toppers, voor een resultaat dat thuis moeilijk lukt.",
+        "items": [
+          "Hemden",
+          "Broeken",
+          "Vesten"
+        ],
+        "image": "gallery-hemdentopper",
+        "href": "#bezoek"
       },
       {
         "nr": "04",
-        "title": "Herstellingen & stoppages",
-        "text": "Een losse zoom, een kapotte rits, een gaatje in uw favoriete trui."
+        "title": "Herstellingen",
+        "text": "Een losse zoom, een kapotte rits of een gaatje in uw favoriete trui: ons atelier zorgt voor herstellingen en onzichtbare stoppages.",
+        "items": [
+          "Zomen & ritsen",
+          "Stoppages",
+          "Kleine aanpassingen"
+        ],
+        "image": "gallery-strijkster",
+        "href": "#bezoek"
       },
       {
         "nr": "05",
         "title": "Gordijnen & dekens",
-        "text": "Over- en vouwgordijnen, stores, (dons)dekens, kussens en tapijten."
-      }
-    ],
-    "pickup": {
-      "nr": "06",
-      "tag": "Aan huis",
-      "title": "Eigen ophaaldienst",
-      "text": "Geen tijd om langs te komen? Wij halen uw kleding en huishoudtextiel op en brengen het proper terug.",
-      "cta": {
-        "label": "Ophaling aanvragen",
+        "text": "Groot huishoudtextiel vraagt ruimte en kennis. Wij reinigen over- en vouwgordijnen, stores, (dons)dekens, kussens en tapijten.",
+        "items": [
+          "Over- en vouwgordijnen",
+          "(Dons)dekens & kussens",
+          "Tapijten"
+        ],
+        "image": "gallery-voorschuur",
         "href": "#bezoek"
       },
-      "note": "TODO(client): pick-up areas, days, cost. Copy above is written by the designer and needs client sign-off."
-    }
+      {
+        "nr": "06",
+        "title": "Ophaaldienst",
+        "text": "Geen tijd om langs te komen? Met onze eigen ophaaldienst halen wij uw kleding en huishoudtextiel op en brengen we alles proper terug.",
+        "items": [
+          "Kleding",
+          "Huishoudtextiel"
+        ],
+        "image": "hero-winkel",
+        "href": "#bezoek"
+      }
+    ]
   },
   "story": {
-    "eyebrow": "Ons verhaal · sinds 1950",
+    "eyebrow": "Ons verhaal",
     "title": "De laatste van zeven.",
     "text": "In 1950 namen onze grootouders een bestaande wasserij over en noemden ze ‘De Bie’, naar de naarstige bij. In de jaren ’90 telde Ninove nog zeven droogkuiszaken. Vandaag zijn wij de enige die overbleef.",
     "stats": [
@@ -169,7 +211,7 @@ export const home = {
       },
       {
         "value": "1991",
-        "label": "3e generatie"
+        "label": "Derde generatie"
       },
       {
         "value": "2017",
@@ -181,12 +223,19 @@ export const home = {
       "href": "/ons-verhaal"
     },
     "image": "story-bart-mady",
-    "caption": "Bart De Smet & Mady Buys"
+    "caption": "Bart De Smet & Mady Buys",
+    "titleLines": [
+      "De laatste",
+      "van zeven."
+    ],
+    "since": "Sinds 1950"
   },
   "process": {
-    "eyebrow": "Werkwijze",
-    "title": "Elk stuk krijgt een nummer.",
-    "lead": "Negen vaste stappen, van de toonbank tot de verpakking. Zo raakt er niets zoek en krijgt elk stuk de behandeling die het nodig heeft.",
+    "titleLines": [
+      "Elk stuk krijgt",
+      "een nummer."
+    ],
+    "lead": "Negen vaste stappen, van de toonbank tot de verpakking. Zo raakt er niets zoek.",
     "steps": [
       {
         "nr": "01",
@@ -238,47 +287,27 @@ export const home = {
   "loyalty": {
     "eyebrow": "Klantenkaart",
     "title": "Blijvende korting, elke keer opnieuw.",
-    "lead": "Vraag uw Shop De Bie-klantenkaart aan de toonbank. De korting geldt op:",
-    "items": [
-      "Alle droogkuiskleding",
-      "Ceremoniekleding & trouwjurken",
-      "Over- en vouwgordijnen",
-      "(Dons)dekens",
-      "Regen- en skikleding"
-    ],
+    "lead": "Op droogkuis, ceremoniekleding, gordijnen, (dons)dekens en regen- en skikleding. Vraag ernaar aan de toonbank.",
     "card": {
-      "label": "Klantenkaart",
-      "name": "Shop De Bie",
-      "sub": "Nr. 1950 · blijvende korting"
+      "label": "KLANTENKAART"
     }
   },
   "visit": {
     "eyebrow": "Kom langs",
-    "title": "Leopoldlaan 39, Ninove.",
+    "title": "Leopoldlaan 39, Ninove",
     "buttons": [
       {
-        "label": "Tel. 054 33 11 12",
+        "label": "Bel 054 33 11 12",
         "href": "tel:+3254331112",
-        "variant": "ink"
+        "variant": "green"
       },
       {
-        "label": "Gsm 0495 52 08 26",
-        "href": "tel:+32495520826",
-        "variant": "outline"
-      },
-      {
-        "label": "Route plannen →",
+        "label": "Route plannen",
         "href": "https://www.google.com/maps/dir/?api=1&destination=Leopoldlaan+39,+9400+Ninove",
         "variant": "outline",
         "external": true
       }
-    ],
-    "map": {
-      "placeholderLabel": "Kaart",
-      "placeholderText": "De kaart wordt geladen via Google Maps.",
-      "loadButton": "Kaart laden",
-      "iframeTitle": "Kaart Shop De Bie"
-    }
+    ]
   },
   "footer": {
     "tagline": "Wasserij en droogkuis in Ninove. Familiebedrijf sinds 1950.",
@@ -291,7 +320,21 @@ export const home = {
     "privacy": {
       "label": "Privacy & cookies",
       "href": "/privacy"
-    }
+    },
+    "links": [
+      {
+        "label": "Diensten",
+        "href": "#diensten"
+      },
+      {
+        "label": "Werkwijze",
+        "href": "#werkwijze"
+      },
+      {
+        "label": "Ons verhaal",
+        "href": "#verhaal"
+      }
+    ]
   },
   "seo": {
     "title": "Shop De Bie — Wasserij & droogkuis in Ninove",
@@ -383,9 +426,12 @@ export const home = {
       "alt": "Overzicht van wassymbolen"
     }
   },
-  "accessibility": { "pillarsHeading": "Onze troeven" },
+  "accessibility": {
+    "pillarsHeading": "Onze troeven"
+  },
   "brand": {
-    "wordmark": "shop de bie",
+    "wordmark": "Shop de bie",
+    "tagline": "DROOGKUIS · WASSERIJ",
     "facebookLabel": "Facebook"
   }
 } as const;

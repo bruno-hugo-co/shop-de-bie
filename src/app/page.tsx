@@ -7,26 +7,28 @@ import { Process } from "@/components/sections/Process";
 import { LoyaltyCard } from "@/components/sections/LoyaltyCard";
 import { Visit } from "@/components/sections/Visit";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { Container } from "@/components/ui/Container";
 
 export default function HomePage() {
   return (
-    <>
-      <div className="relative">
-        {/* The header visually overlays the hero while retaining a top-level landmark. */}
-        <div className="absolute inset-x-0 top-[clamp(16px,2.2vw,32px)] z-20 px-[clamp(16px,4.4vw,64px)]">
-          <SiteHeader />
-        </div>
-        <main id="inhoud" tabIndex={-1}>
+    <div id="top" className="relative">
+      <SiteHeader />
+      <main id="inhoud" tabIndex={-1}>
+        <div className="intro-background">
           <Hero />
           <Pillars />
+        </div>
+        <div className="bg-white">
           <Services />
-          <Story />
           <Process />
-          <LoyaltyCard />
-          <Visit />
-        </main>
-      </div>
+          <Story />
+          <Container className="grid gap-6 pb-[clamp(64px,8.3333vw,120px)] lg:grid-cols-2">
+            <LoyaltyCard />
+            <Visit />
+          </Container>
+        </div>
+      </main>
       <SiteFooter />
-    </>
+    </div>
   );
 }

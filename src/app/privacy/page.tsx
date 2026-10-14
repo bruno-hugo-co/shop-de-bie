@@ -12,5 +12,5 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
-  return <><Container className="py-6"><SiteHeader homePage={false} /></Container><main id="inhoud" tabIndex={-1} className="section-y"><Container><h1 className="display-h2 mb-12">{home.privacy.title}</h1><div className="max-w-3xl space-y-10">{home.privacy.sections.map((title) => <section key={title} className="border-t border-rule pt-6"><h2 className="title-pillar mb-4">{title}</h2><p className="text-muted">{home.privacy.body}</p></section>)}</div></Container></main><SiteFooter homePage={false} /></>;
+  return <><div id="top" className="bg-hero"><SiteHeader homePage={false} /></div><main id="inhoud" tabIndex={-1} className="section-y"><Container><h1 className="display-h2 mb-12">{home.privacy.title}</h1><div className="max-w-3xl space-y-10">{home.privacy.sections.map((title) => <section key={title} className="border-t border-rule pt-6"><h2 className="title-pillar mb-4">{title}</h2><p className="text-muted">{home.privacy.body}</p></section>)}</div></Container></main><SiteFooter homePage={false} /></>;
 }
