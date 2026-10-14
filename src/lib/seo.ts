@@ -1,19 +1,36 @@
 import { home } from "@/content/home";
+import type { Metadata } from "next";
 import { formatTime, isoDays, schedule } from "./hours";
+import { getSiteUrl } from "./site-url";
 
 const schemaDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
+export function buildSocialMetadata(title: string, description: string, path: string): Pick<Metadata, "openGraph" | "twitter"> {
+  const image = {
+    url: new URL("/opengraph-image?v=brand-20261014", getSiteUrl()).href,
+    width: 1200, height: 630, type: "image/png", alt: home.seo.ogTitle,
+  };
+  return {
+    openGraph: {
+      type: "website", locale: home.seo.locale, siteName: home.business.name,
+      url: path, title, description, images: [image],
+    },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
+  };
+}
+
 export function buildLocalBusinessJsonLd() {
   const { business, seo } = home;
+  const siteUrl = getSiteUrl().origin;
   return {
     "@context": "https://schema.org",
     "@type": "DryCleaningOrLaundry",
-    "@id": `${seo.siteUrl}/#business`,
+    "@id": `${siteUrl}/#business`,
     name: business.name,
-    url: seo.siteUrl,
+    url: siteUrl,
     description: seo.description,
     telephone: business.phone.e164,
-    image: `${seo.siteUrl}${home.images[home.hero.image].src}`,
+    image: `${siteUrl}${home.images[home.hero.image].src}`,
     address: {
       "@type": "PostalAddress", streetAddress: business.address.street,
       postalCode: business.address.postalCode, addressLocality: business.address.city,

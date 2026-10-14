@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { home } from "@/content/home";
+import { buildSocialMetadata } from "@/lib/seo";
 import { Story } from "@/components/sections/Story";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -7,7 +8,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 export const metadata: Metadata = {
   title: `${home.story.title} — ${home.business.name}`, description: home.story.text,
   alternates: { canonical: "/ons-verhaal" },
-  openGraph: { title: home.story.title, description: home.story.text, url: "/ons-verhaal" },
+  ...buildSocialMetadata(home.story.title, home.story.text, "/ons-verhaal"),
 };
 
 export default function StoryPage() {

@@ -1,5 +1,36 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import sharp from "sharp";
+import { getSiteUrl } from "../src/lib/site-url";
+
+test("social crawlers receive a working branded PNG without JavaScript", async ({ browser, request, baseURL }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, userAgent: "WhatsApp/2.24.1" });
+  const page = await context.newPage();
+  try {
+    for (const path of ["/", "/ons-verhaal", "/privacy"]) {
+      await page.goto(`${baseURL}${path}`);
+      const ogImage = page.locator('head meta[property="og:image"]');
+      await expect(ogImage).toHaveCount(1);
+      const imageUrl = new URL((await ogImage.getAttribute("content"))!);
+      expect(imageUrl.origin).toBe(getSiteUrl().origin);
+      await expect(page.locator('head meta[name="twitter:image"]')).toHaveAttribute("content", imageUrl.href);
+      await expect(page.locator('head meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
+      await expect(page.locator('head link[rel="canonical"]')).toHaveAttribute("href", new URL(path, imageUrl).href.replace(/\/$/, ""));
+      // Local builds default to port 3000; Playwright serves that build on 3101.
+      const fetchUrl = ["localhost", "127.0.0.1"].includes(imageUrl.hostname)
+        ? new URL(imageUrl.pathname + imageUrl.search, baseURL).href : imageUrl.href;
+      const response = await request.get(fetchUrl);
+      expect(response.status()).toBe(200);
+      expect(response.headers()["content-type"]).toContain("image/png");
+      const image = await sharp(await response.body()).metadata();
+      expect([image.format, image.width, image.height]).toEqual(["png", 1200, 630]);
+    }
+    const icon = await request.get("/icon.svg");
+    expect(await icon.text()).toContain('#EE7D3A');
+  } finally {
+    await context.close();
+  }
+});
 
  test("anchors, keyboard skip link, metadata and contact links", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });

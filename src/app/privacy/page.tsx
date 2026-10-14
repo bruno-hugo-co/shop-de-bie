@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { home } from "@/content/home";
+import { buildSocialMetadata } from "@/lib/seo";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { Container } from "@/components/ui/Container";
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
   title: `${home.privacy.title} — ${home.business.name}`,
   alternates: { canonical: "/privacy" },
   robots: { index: false, follow: true }, // TODO(client): approve the policy before indexing.
-  openGraph: { title: home.privacy.title, url: "/privacy" },
+  ...buildSocialMetadata(home.privacy.title, home.seo.description, "/privacy"),
 };
 
 export default function PrivacyPage() {

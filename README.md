@@ -48,6 +48,10 @@ These scripts write ignored screenshots to `qa-artifacts/` and leave `design/` u
 
 ## Deployment
 
+Social images, canonical URLs, JSON-LD, robots and sitemap use the build's deployment origin. Production uses `VERCEL_PROJECT_PRODUCTION_URL` (currently `shop-de-bie.vercel.app`); previews use `VERCEL_BRANCH_URL` or `VERCEL_URL`. These are [Vercel system environment variables](https://vercel.com/docs/environment-variables/system-environment-variables). Keep system environment variables enabled. Local builds use `http://localhost:${PORT || 3000}`. For other hosting, set `SITE_URL` to the full public origin **before building**. Only set `SITE_URL=https://shopdebie.be` after that domain serves this site, then rebuild. The future domain in the content module does not determine live asset URLs.
+
+Social sharing uses the existing 1200×630 PNG at `/opengraph-image`, with the approved orange/green logo and Dutch headline. After deploying, check the actual `og:image` URL in the public HTML: it must return 200 and `image/png` without authentication. Previously sent WhatsApp previews can remain cached; test a newly shared URL such as `/?v=brand-20261014`. Preview deployments with Vercel authentication enabled cannot be fetched by social crawlers.
+
 `vercel.json` sets the framework and reproducible install/build commands. Import this repository in the client's Vercel team, use `main` as the production branch and enable pull-request previews. No Vercel project, credentials, production deployment or DNS changes are configured by this checkout.
 
 Before publishing, resolve the client items in `PLAN.md`, particularly the privacy policy, copy/photo approval and domain access. After approval, add both domains, configure the `www` redirect in Vercel and verify the final production URLs before submitting the sitemap or changing the Google Business Profile.

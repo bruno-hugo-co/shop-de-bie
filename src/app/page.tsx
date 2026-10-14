@@ -8,6 +8,10 @@ import { LoyaltyCard } from "@/components/sections/LoyaltyCard";
 import { Visit } from "@/components/sections/Visit";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { Container } from "@/components/ui/Container";
+import { home } from "@/content/home";
+import { buildSocialMetadata } from "@/lib/seo";
+
+export const metadata = buildSocialMetadata(home.seo.ogTitle, home.seo.description, "/");
 
 export default function HomePage() {
   return (

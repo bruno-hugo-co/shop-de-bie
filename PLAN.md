@@ -2,6 +2,19 @@
 
 The client replaced the previous brand direction on 2026-10-14. Rebuild the homepage from **artboard 1b Fris** in `design/reference/shop-de-bie-home-new.dc.html`, with the subsequently requested **1a Zacht header/navigation and logo**. The old turquoise/square design, “Stip” logo and their completed implementation plan are superseded. Keep all design files read-only.
 
+## Social sharing URL fix (2026-10-14)
+
+- [x] Diagnose the public preview: the new favicon was live, but `og:image` and `twitter:image` pointed to `shopdebie.be/opengraph-image`, which returned 404.
+- [x] Resolve the metadata origin from Vercel's public production alias or preview deployment, with `SITE_URL` for explicit hosting configuration and a local development fallback.
+- [x] Use the same origin for canonical links, Open Graph URLs, JSON-LD, sitemap and robots. Keep the approved 1200×630 orange/green logo image and orange db favicon.
+- [x] Provide explicit shared Open Graph/Twitter image metadata on the homepage, story and privacy pages; page-level metadata previously removed inherited images on supporting pages. Version the image URL with `brand-20261014`.
+- [x] Add regression coverage for production/custom/preview/local origins and crawler HTML/image retrieval without JavaScript, including supporting pages.
+- [x] Validate lint, typecheck, production build and applicable tests; inspect the served PNG.
+
+Validation: lint, typecheck and production build pass; all 45 Playwright tests pass. The new crawler check disables JavaScript and verifies the actual Open Graph and Twitter URLs on all three pages, successful PNG responses and 1200×630 dimensions. Inspected the generated PNG: approved orange/green logo, Dutch headline and green/peach background. Existing responsive, keyboard and axe checks remain green. `git diff --check` passes. Public deployment and a real WhatsApp re-share remain release checks.
+
+Deployment is still required to apply this checkout's fix to the public Vercel URL. After release, verify that the advertised absolute image URL returns 200 without authentication. Existing WhatsApp previews may remain cached; a fresh share with `?v=brand-20261014` can help test a new URL. Only configure the final domain as `SITE_URL` after it serves this application, then rebuild. Preview deployment authentication must be disabled for external social crawlers to retrieve those previews.
+
 ## Logo update — 1a Zacht (2026-10-14)
 
 - [x] Match the client screenshot to the large 1a logo specimen: orange db symbol, green “Shop de bie” in Barlow Bold, orange uppercase tagline in Barlow Semi Condensed 600.
